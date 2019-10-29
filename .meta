@@ -1,5 +1,6 @@
 {
   "projects": {
-    "src\\components": "https://github.com/aarryann/codex.git"
+    "src\\components": "https://github.com/aarryann/codex.git",
+    "data": "https://github.com/aarryann/sample-data.git"
   }
 }

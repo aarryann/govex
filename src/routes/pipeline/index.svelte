@@ -7,8 +7,8 @@
 <script>
   import { sPipelineViewType } from "../../stores";
   import { TitleConstants } from "../../conf/constants";
-  import data from "../../data/listpatients.js";
-  import sortList from "../../data/dogs.js";
+  import data from "../../../data/listpatients.js";
+  import sortList from "../../../data/dogs.js";
   import PageHeader from "../../components/controls/list-page-header.svelte";
   import ListItems from "../../components/listitems/index.svelte";
 
