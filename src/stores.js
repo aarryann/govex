@@ -1,6 +1,9 @@
 import { writable, get } from "svelte/store";
 import { ListConstants } from "./conf/constants";
 
+export const s_isSidebarRightOpen = writable(false);
+export const s_isSettingsOpen = writable(false);
+
 const createWritableStore = (key, startValue) => {
   const _writable = writable(startValue);
 

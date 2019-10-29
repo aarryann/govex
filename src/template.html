@@ -28,33 +28,34 @@
     %sapper.styles%
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/css/horizontal-layout-light/style.css" />
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css" />
     <!-- endinject -->
     <link rel="shortcut icon" href="/img/favicon.png" />
     <!-- This contains the contents of the <svelte:head> component, if the current page has one -->
     %sapper.head%
   </head>
-  <body class="sidebar-mini">
+  <body class="sidebar-fixed">
     <!-- The application will be rendered inside this element, because `src/client.js` references it -->
     <div id="sapper">%sapper.html%</div>
-
-    <!-- Sapper creates a <script> tag containing `src/client.js`
-  and anything else it needs to hydrate the app and
-  initialise the router -->
+    <!-- Sapper creates a <script> tag containing `src/client.js` and anything else it needs to hydrate the app and initialise the router -->
+    <!-- inject:js -->
     %sapper.scripts%
-    <!-- base:js -->
+    <!-- end:inject:js -->
+    <!-- base:js-start -->
     <script src="/vendors/js/vendor.bundle.base.js"></script>
     <script src="/js/bootstrap.js"></script>
-    <!-- endinject -->
-    <!-- inject:js -->
+    <!-- end:base:js -->
+    <!-- multitag -->
     <script src="/js/d3.js"></script>
     <script src="/js/bstag.js"></script>
     <script src="/js/typeahead.bundle.min.js"></script>
+    <!-- end:multitag -->
+    <!-- libraries -->
     <script src="/thm/off-canvas.js"></script>
     <script src="/thm/hoverable-collapse.js"></script>
     <script src="/thm/template.js"></script>
     <script src="/thm/settings.js"></script>
     <script src="/thm/todolist.js"></script>
-    <!-- endinject -->
+    <!-- end:libraries -->
   </body>
 </html>

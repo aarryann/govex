@@ -2,6 +2,9 @@
   import { stores } from "@sapper/app";
   import Nav from "../components/layout/Nav.svelte";
   import ProtectedNav from "../components/layout/ProtectedNav.svelte";
+  import ThemeSettings from "../components/layout/ThemeSettings.svelte";
+  import SidebarRight from "../components/layout/SidebarRight.svelte";
+  import SidebarLeft from "../components/layout/SidebarLeft.svelte";
   import PreloadingIndicator from "../components/layout/PreloadingIndicator.svelte";
 
   export let segment;
@@ -27,6 +30,9 @@
     <!-- page-body-wrapper ends -->
   {:else}
     {#if $session.user}
+      <ThemeSettings {segment} />
+      <SidebarRight {segment} />
+      <SidebarLeft {segment} />
       <ProtectedNav {segment} />
     {:else}
       <Nav {segment} />
