@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "data": "https://github.com/aarryann/sample-data.git",
+    "src\\components": "https://github.com/aarryann/codex.git",
+    "src\\utils": "https://github.com/aarryann/utex.git"
+  }
+}
