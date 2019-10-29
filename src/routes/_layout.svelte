@@ -1,22 +1,46 @@
 <script>
-	import Nav from '../components/Nav.svelte';
+  import { stores } from "@sapper/app";
+  import Nav from "../components/layout/Nav.svelte";
+  import ProtectedNav from "../components/layout/ProtectedNav.svelte";
+  import PreloadingIndicator from "../components/layout/PreloadingIndicator.svelte";
 
-	export let segment;
+  export let segment;
+  const { page, preloading, session } = stores();
 </script>
 
-<style>
-	main {
-		position: relative;
-		max-width: 56em;
-		background-color: white;
-		padding: 2em;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-</style>
+{#if $preloading}
+  <PreloadingIndicator />
+{/if}
 
-<Nav {segment}/>
-
-<main>
-	<slot></slot>
-</main>
+<div class="container-scroller">
+  {#if $page.path === '/login' || $page.path === '/register'}
+    <!--TODO: For some reason not equals not working hence put Nav segment in else clause-->
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper d-flex align-items-center auth px-0">
+          <slot />
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  {:else}
+    {#if $session.user}
+      <ProtectedNav {segment} />
+    {:else}
+      <Nav {segment} />
+    {/if}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <slot />
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  {/if}
+</div>
+<!-- container-scroller -->

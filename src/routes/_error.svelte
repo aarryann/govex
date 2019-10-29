@@ -34,6 +34,7 @@
 <h1>{status}</h1>
 
 <p>{error.message}</p>
+<p>I am in an error page</p>
 
 {#if dev && error.stack}
 	<pre>{error.stack}</pre>
