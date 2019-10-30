@@ -16,12 +16,8 @@
       rel="stylesheet"
       href="/vendors/mdi/css/materialdesignicons.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="/vendors/font-awesome/css/font-awesome.min.css"
-    />
-    <link rel="stylesheet" href="/vendors/animate.css/css/animate.min.css" />
     <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="/vendors/animate.css/css/animate.min.css" />
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- Sapper generates a <style> tag containing critical CSS for the current page. CSS for the rest of the app is lazily loaded when it precaches secondary pages -->
@@ -30,13 +26,18 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/vertical-layout-light/style.css" />
     <!-- endinject -->
+    <style>
+      #sapper {
+        padding: 0px;
+      }
+    </style>
     <link rel="shortcut icon" href="/img/favicon.png" />
     <!-- This contains the contents of the <svelte:head> component, if the current page has one -->
     %sapper.head%
   </head>
   <body class="sidebar-fixed">
     <!-- The application will be rendered inside this element, because `src/client.js` references it -->
-    <div id="sapper">%sapper.html%</div>
+    <div id="sapper" class="container-scroller">%sapper.html%</div>
     <!-- Sapper creates a <script> tag containing `src/client.js` and anything else it needs to hydrate the app and initialise the router -->
     <!-- inject:js -->
     %sapper.scripts%
