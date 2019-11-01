@@ -13,7 +13,7 @@
   import ListItems from "../../components/listitems/index.svelte";
 
   let title = TitleConstants.TITLE_PIPELINE;
-  let config = { cardheight: 125, cardwidth: 220 };
+  let config = { cardheight: 125, cardwidth: 220, minBoardWidth: 20 };
 </script>
 
 <svelte:head>

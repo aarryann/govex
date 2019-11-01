@@ -4,7 +4,8 @@
     ? factory(exports, require("d3"))
     : typeof define === "function" && define.amd
     ? define(["exports", "d3"], factory)
-    : ((global = global || self), factory((global.bsTag = {}), global.d3));
+    : ((global = global || self),
+      factory((global.bsTag = {}), global.d3, global.Bloodhound));
 })(this, function(exports, d3) {
   "use strict";
 
