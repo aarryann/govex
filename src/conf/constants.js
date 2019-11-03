@@ -5,6 +5,7 @@ export const ListConstants = {
 };
 
 export const TitleConstants = {
+  TITLE_SITE: "EDAC",
   TITLE_PIPELINE: "Pipeline",
   TITLE_HOME: "Home"
 };
