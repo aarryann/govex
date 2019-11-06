@@ -1,4 +1,13 @@
 {
-  "entry": { "route": "/projects", "title": "Projects", "order": "3" },
+  "Projex": {
+    "route": "/projects",
+    "title": "Projects",
+    "grouporder": "3"
+  },
+  "Govex": {
+    "route": "/projects",
+    "title": "Projects",
+    "grouporder": "2"
+  },
   "status": "enabled"
 }
