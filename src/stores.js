@@ -1,5 +1,4 @@
 import { writable, get } from "svelte/store";
-import { ListConstants } from "./conf/constants";
 
 export const s_isSidebarRightOpen = writable(false);
 export const s_isSettingsOpen = writable(false);
@@ -28,4 +27,4 @@ const createWritableStore = (key, startValue) => {
 
 export const sLoginToken = createWritableStore("lastDate", "false");
 export const sUser = writable(null);
-export const sPipelineViewType = writable(ListConstants.VIEW_TYPE_ROLL);
+export const sNavItems = writable({});
