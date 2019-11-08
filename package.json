@@ -15,20 +15,15 @@
   "dependencies": {
     "@polka/send": "^0.4.0",
     "animate.css": "^3.7.2",
-    "apollo-cache-inmemory": "^1.6.3",
-    "apollo-client": "^2.6.4",
-    "apollo-link-http": "^1.5.16",
-    "apollo-link-ws": "^1.0.19",
+    "apollo-boost": "^0.4.4",
     "compression": "^1.7.1",
     "cookie": "^0.4.0",
     "dotenv": "^8.1.0",
     "flru": "^1.0.2",
     "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1",
     "pg": "^7.12.1",
     "polka": "next",
     "sirv": "^0.4.0",
-    "subscriptions-transport-ws": "^0.9.16",
     "svelte-apollo": "^0.3.0"
   },
   "devDependencies": {
