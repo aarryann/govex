@@ -4,7 +4,7 @@ export const queries = {
   currentUser: gql`
     query {
       currentUser {
-        sid
+        token
         user {
           id
           email
@@ -25,7 +25,7 @@ export const mutations = {
   login: gql`
     mutation Login($email: String!, $password: String!, $url: String!) {
       login(email: $email, password: $password, url: $url) {
-        sid
+        token
         user {
           id
           email
@@ -36,7 +36,7 @@ export const mutations = {
   register: gql`
     mutation Login($email: String!, $password: String!) {
       login(email: $email, password: $password) {
-        sid
+        token
         user {
           id
           email

@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import { stores } from "@sapper/app";
   import Nav from "../components/layout/Nav.svelte";
   import ProtectedNav from "../components/layout/ProtectedNav.svelte";
@@ -7,16 +6,16 @@
   import SidebarRight from "../components/layout/SidebarRight.svelte";
   import SidebarLeft from "../components/layout/SidebarLeft.svelte";
   import PreloadingIndicator from "../components/layout/PreloadingIndicator.svelte";
-  import { createApolloClient } from "../_apollo.js";
+  // import ApolloClient from "apollo-boost";
+  import { createApolloClient } from "../_apollo";
+  import { setClient } from "svelte-apollo";
 
   export let segment;
   const { page, preloading, session } = stores();
   const { user, token } = session;
-
-  onMount(() => {
-    const client = createApolloClient(token);
-    setClient(client);
-  });
+  // const client = new ApolloClient({ uri: "http://localhost:4000/graphql" });
+  const client = new createApolloClient(token);
+  setClient(client);
 </script>
 
 {#if $preloading}

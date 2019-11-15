@@ -1,3 +1,5 @@
+import flru from "flru";
+
 export const ListConstants = {
   VIEW_TYPE_BOARD: "BOARD",
   VIEW_TYPE_ROLL: "ROLL",
@@ -40,3 +42,5 @@ export const Nav = {
 export const AppSettings = {
   Group: "Govex"
 };
+
+export const SessionCache = flru(1000);

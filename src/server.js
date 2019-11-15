@@ -3,10 +3,13 @@ import polka from "polka";
 import compression from "compression";
 import * as sapper from "@sapper/server";
 import Actions from "./routes/auth/_actions";
+import fetch from "node-fetch";
+const { json } = require("body-parser");
+
+global.fetch = fetch;
 
 const { PORT = 3000, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
-
 const app = polka({
   onError: (err, req, res) => {
     const error = err.message || err;
@@ -17,6 +20,8 @@ const app = polka({
 
 app
   .use(
+    json(),
+
     Actions.authenticate(),
 
     compression({ threshold: 0 }),

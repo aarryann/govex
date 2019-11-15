@@ -1,38 +1,36 @@
 import { mutations, queries } from "./_queries";
-import flru from "flru";
-import { getClient } from "svelte-apollo";
-
-const _sessionCache = flru(1000);
-const client = getClient();
+import { getClient, query, mutate } from "svelte-apollo";
+import * as cookie from "cookie";
+import { SessionCache } from "../../conf/config.js";
 
 const Actions = {
-  authenticate: () => {
+  authenticate: client => {
     // this is a convenient time to clear out expired sessions
     return async (req, res, next) => {
       req.cookies = cookie.parse(req.headers.cookie || "");
       req.sid = req.cookies.sid;
-      req.user = await getUser(req.cookies.sid);
+      req.user = await Actions.getUser(client, req.cookies.sid);
 
       next();
     };
   },
 
+  deleteSession: async sid => {
+    // await query(`delete from sessions where uid = $1`, [sid]);
+    SessionCache.set(sid, null);
+  },
+
   // If user refreshes browser or revisits signin without logging out ... the
   // current user will need to be regenerated to put currentUser in store
   // TODO: Use apollo-cache-persist
-  getCurrentUser: async () => {
-    const results = await client.query({ query: queries.currentUser });
+  getCurrentUser: async client => {
     try {
+      const results = await client.query({ query: queries.currentUser });
       const data = results.data.currentUser;
       Actions.setCurrentUser(data.sid, data.user);
     } catch (e) {
       console.log(`Error#CurrentUser: ${e}`);
     }
-  },
-
-  deleteSession: async sid => {
-    // await query(`delete from sessions where uid = $1`, [sid]);
-    _sessionCache.set(sid, null);
   },
 
   // Get tenant
@@ -43,7 +41,7 @@ const Actions = {
         query: queries.tenantByUrl,
         variables: { url }
       };
-      const results = await client.query(payload);
+      const results = await query(client, payload);
       if (results.error) return { error: results.error.message };
 
       const tenant = results.data.tenantByUrl;
@@ -55,10 +53,10 @@ const Actions = {
   },
 
   getUser: async sid => {
+    //console.log("getUser**********");
     if (!sid) return null;
-    else if (!_sessionCache.has(sid)) Actions.getCurrentUser();
-
-    return _sessionCache.get(sid);
+    //else if (!SessionCache.has(sid)) Actions.getCurrentUser();
+    return SessionCache.get(sid);
   },
 
   sanitizeUser: obj =>
@@ -69,18 +67,19 @@ const Actions = {
     },
 
   setCurrentUser: async (sid, user) => {
-    _sessionCache.set(sid, user);
+    SessionCache.set(sid, user);
   },
 
   // On signin click
   signIn: async (email, password, url) => {
+    console.log("signIn**********");
     try {
       // client.clearStore();
       const payload = {
         mutation: mutations.login,
         variables: { email, password, url }
       };
-      const result = await client.mutate(payload);
+      const result = await mutate(client, payload);
       if (result.error) return { error: result.error.message };
 
       console.log(JSON.stringify(results, null, " "));
