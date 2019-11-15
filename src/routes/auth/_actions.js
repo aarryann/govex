@@ -59,12 +59,16 @@ const Actions = {
     return SessionCache.get(sid);
   },
 
-  sanitizeUser: obj =>
-    obj && {
-      uid: obj.uid,
-      username: obj.username,
-      name: obj.name
-    },
+  sanitizeUser: (obj, sid) => {
+    //console.log(sid);
+    return (
+      obj && {
+        uid: obj.uid,
+        username: obj.username,
+        name: obj.name
+      }
+    );
+  },
 
   setCurrentUser: async (sid, user) => {
     SessionCache.set(sid, user);

@@ -12,6 +12,7 @@
 
   export let segment;
   const { page, preloading, session } = stores();
+  console.log(session);
   const { user, token } = session;
   // const client = new ApolloClient({ uri: "http://localhost:4000/graphql" });
   const client = new createApolloClient(token);
