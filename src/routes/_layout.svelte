@@ -6,15 +6,12 @@
   import SidebarRight from "../components/layout/SidebarRight.svelte";
   import SidebarLeft from "../components/layout/SidebarLeft.svelte";
   import PreloadingIndicator from "../components/layout/PreloadingIndicator.svelte";
-  // import ApolloClient from "apollo-boost";
   import { createApolloClient } from "../_apollo";
   import { setClient } from "svelte-apollo";
 
   export let segment;
   const { page, preloading, session } = stores();
-  console.log(session);
-  const { user, token } = session;
-  // const client = new ApolloClient({ uri: "http://localhost:4000/graphql" });
+  let { user, token } = $session;
   const client = new createApolloClient(token);
   setClient(client);
 </script>
