@@ -35,7 +35,7 @@ app
 
     sapper.middleware({
       session: req => ({
-        user: Actions.sanitizeUser(req.user, req.sid),
+        user: Actions.sanitizeUser(req.user),
         token: req.sid
       })
     })

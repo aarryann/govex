@@ -1,15 +1,21 @@
 import { mutations, queries } from "./_queries";
 import { getClient, query, mutate } from "svelte-apollo";
 import * as cookie from "cookie";
+import jwt from "jsonwebtoken";
 import { SessionCache } from "../../conf/config.js";
 
 const Actions = {
-  authenticate: client => {
+  authenticate: () => {
     // this is a convenient time to clear out expired sessions
     return async (req, res, next) => {
       req.cookies = cookie.parse(req.headers.cookie || "");
-      req.sid = req.cookies.sid;
-      req.user = await Actions.getUser(client, req.cookies.sid);
+
+      console.log(`Actions authenticate cookies sid: ${req.cookies.sid}`);
+      if (req.cookies.sid) {
+        req.sid = req.cookies.sid;
+        const { user } = jwt.verify(req.cookies.sid, process.env.APP_SECRET);
+        req.user = user;
+      }
 
       next();
     };
@@ -17,7 +23,7 @@ const Actions = {
 
   deleteSession: async sid => {
     // await query(`delete from sessions where uid = $1`, [sid]);
-    SessionCache.set(sid, null);
+    // SessionCache.set(sid, null);
   },
 
   // If user refreshes browser or revisits signin without logging out ... the
@@ -54,18 +60,19 @@ const Actions = {
 
   getUser: async sid => {
     //console.log("getUser**********");
+    console.log(`Actions getUser token: ${sid}`);
+    console.log(`Actions getUser Session Cache: ${SessionCache.get(sid)}`);
     if (!sid) return null;
     //else if (!SessionCache.has(sid)) Actions.getCurrentUser();
     return SessionCache.get(sid);
   },
 
-  sanitizeUser: (obj, sid) => {
-    //console.log(sid);
+  sanitizeUser: obj => {
+    console.log(obj);
     return (
       obj && {
-        uid: obj.uid,
-        username: obj.username,
-        name: obj.name
+        token: obj.sid,
+        userId: obj.userId
       }
     );
   },
