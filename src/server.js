@@ -2,7 +2,7 @@ import sirv from "sirv";
 import polka from "polka";
 import compression from "compression";
 import * as sapper from "@sapper/server";
-import Actions from "./routes/auth/_actions";
+import { authenticate, sanitizeUser } from "./utils/auth";
 import fetch from "node-fetch";
 const { json } = require("body-parser");
 
@@ -22,7 +22,7 @@ app
   .use(
     json(),
 
-    Actions.authenticate(),
+    authenticate(),
 
     compression({ threshold: 0 }),
     sirv("static", {
@@ -35,7 +35,7 @@ app
 
     sapper.middleware({
       session: req => ({
-        user: Actions.sanitizeUser(req.user),
+        user: sanitizeUser(req.user),
         token: req.sid
       })
     })

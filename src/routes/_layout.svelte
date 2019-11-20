@@ -12,8 +12,7 @@
   export let segment;
   const { page, preloading, session } = stores();
   let { user, token } = $session;
-  console.log(user);
-  const client = new createApolloClient(token);
+  const client = new createApolloClient($session.token);
   setClient(client);
 </script>
 
