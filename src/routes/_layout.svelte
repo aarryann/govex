@@ -37,12 +37,12 @@
   {#if $session.user}
     <ProtectedNav {segment} />
   {:else}
-    <Nav {segment} />
+    <Nav />
   {/if}
   <div class="container-fluid page-body-wrapper">
     {#if $session.user}
-      <ThemeSettings {segment} />
-      <SidebarRight {segment} />
+      <ThemeSettings />
+      <SidebarRight />
       <SidebarLeft {segment} />
     {/if}
     <div class="main-panel">
