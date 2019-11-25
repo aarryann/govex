@@ -16,6 +16,22 @@
   setClient(client);
 </script>
 
+<style lang="scss">
+  .content-wrapper {
+    background-color: #f1f3f6;
+  }
+  @media (min-width: 992px) {
+    .main-panel {
+      margin-left: 180px !important;
+      width: calc(100% - 180px);
+      min-height: calc(100vh - 56px);
+    }
+  }
+  .page-body-wrapper {
+    padding-top: 56px;
+  }
+</style>
+
 {#if $preloading}
   <PreloadingIndicator />
 {/if}

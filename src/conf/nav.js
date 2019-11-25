@@ -6,8 +6,8 @@ export const GetGroupNav = () => {
   for (var prop in pluginConfig) {
     if (pluginConfig.hasOwnProperty(prop)) {
       // Do things here
-      let { order, title, route, css } = pluginConfig[prop];
-      AllNav[order] = { title, route, css, plugin: prop };
+      let { order, title, caption, route, css } = pluginConfig[prop];
+      AllNav[order] = { title, caption, route, css, plugin: prop };
     }
   }
   return Object.values(AllNav);
