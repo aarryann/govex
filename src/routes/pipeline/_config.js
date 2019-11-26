@@ -6,6 +6,7 @@ export default {
   headertitle: TitleConstants.TITLE_PIPELINE,
   cardheight: 125,
   cardwidth: 220,
+  margin: 4,
   minboardwidth: 20,
   viewtype: writable(ListConstants.VIEW_TYPE_ROLL)
 };

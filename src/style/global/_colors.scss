@@ -10,6 +10,7 @@ $blue-s2: #00bbe0;
 $blue-s5: #f7f9fa;
 $blue-s6: #f8f9fb;
 $gray-s1: #f8f8fa;
+$gray-s2: #cdd4e0;
 $gray-s4: #eaeaea;
 $green: #2ecc71;
 $orange: #e67e22;
@@ -20,7 +21,7 @@ $white: #ffffff;
 $yellow: #f1c40f;
 
 $background: $blue-s6;
-$on-background: $black-s2;
+$on-background: $black-s1;
 $surface: $white;
 $on-surface: $black-s1;
 $primary: $purple-s1;
@@ -29,7 +30,7 @@ $secondary: $gray-s1;
 $on-secondary: $black-s1;
 $error: $red;
 $on-error: $white;
-$border-main: $gray-s4;
+$border-main: $gray-s2;
 
 $primary-t1: tint($primary, 10);
 $primary-t2: tint($primary, 20);
