@@ -17,8 +17,9 @@
 </script>
 
 <style lang="scss">
+  @import "../style/global/index";
   .content-wrapper {
-    background-color: #f1f3f6;
+    background-color: $background;
   }
   @media (min-width: 992px) {
     .main-panel {
