@@ -37,7 +37,7 @@
 <PageHeader {sortData} {headertitle} view={viewtype} />
 
 <div class="content-body list-container animated hide">
-  <ListItems {data} view={viewtype} {config} />
+  <ListItems {data} view={viewtype} {config} {id} />
   <Pane {id} />
 
 </div>
