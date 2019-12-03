@@ -20,6 +20,7 @@ $red: #ce4639;
 $white: #ffffff;
 $yellow: #f1c40f;
 
+
 $background: $blue-s6;
 $on-background: $black-s1;
 $surface: $white;
@@ -31,6 +32,8 @@ $on-secondary: $black-s1;
 $error: $red;
 $on-error: $white;
 $border-main: $gray-s2;
+
+$table-accent-bg: $secondary;
 
 $primary-t1: tint($primary, 10);
 $primary-t2: tint($primary, 20);

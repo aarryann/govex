@@ -1,12 +1,12 @@
 // bstag
-(function(global, factory) {
+(function (global, factory) {
   typeof exports === "object" && typeof module !== "undefined"
     ? factory(exports, require("d3"))
     : typeof define === "function" && define.amd
-    ? define(["exports", "d3"], factory)
-    : ((global = global || self),
-      factory((global.bsTag = {}), global.d3, global.Bloodhound));
-})(this, function(exports, d3) {
+      ? define(["exports", "d3"], factory)
+      : ((global = global || self),
+        factory((global.bsTag = {}), global.d3, global.Bloodhound));
+})(this, function (exports, d3) {
   "use strict";
 
   d3 = d3 && d3.hasOwnProperty("default") ? d3["default"] : d3;
@@ -42,7 +42,7 @@
 
   var css =
     ".not-selectable{-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.tag{padding:3px 11px 2px 16px;background-color:#00BBE0;color:#ffffff;display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;border-radius:50px;border:1px #00BBE0 solid;margin-bottom:2px;margin-right:5px}.tag p,.tag span{margin:0;padding:0;font-size:12px;font-weight:500;}.tag span.active{padding-left:5px;margin-left:5px;border-left:1px solid #fff}.suggestion{z-index:1}.suggestion.list-group-item.active{background-color:#333;border-color:#333}.suggestion.list-group-item.active .tag{border:1px solid;border-color:inherit}.tag button{color:#000000;opacity:.75;text-decoration:none;padding:0;padding-left:5px;border-style:none;border:0;font-size:1.2rem;font-weight:800;line-height:1;text-transform:none;overflow:visible;margin:none;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:transparent;vertical-align:middle}.tag button:hover{color:#fff;opacity:1}.dsm-mt-pseudo-input-element{margin-bottom:5px}.dsm-mt-pseudo-input-element:focus{border:2px solid #0097cf}.dsm-mt-tag-area{padding-left:16px;padding-left:1rem;max-height:200px;overflow-y:auto;margin-bottom:0}.dsm-mt-tag-area.disabled{background-color:#9fa4aa}.dsm-mt-typeahead-input-area{display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;width:2px;padding:0;overflow:auto;background-color:transparent;border:none;outline:none;-webkit-box-shadow:none;box-shadow:none;height:30px}.dsm-mt-form-element{border:2px dashed #ccc;padding:1em;margin:1em 0}.dsm-mt-typeahead-suggestion-area{position:absolute;max-height:400px;overflow-y:auto}.soft-border{background-color:#fff;border:1px solid #ccc;border-radius:5px;padding-top:0px}.hidden-form{display:none}.dsm-mt-inline-form{display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;width:100%;--bc:#333;--bsw:1px;--bgc:#fff}.dsm-mt-inline-form input{margin-top:0;padding:0}.dsm-mt-inline-form .dsm-mt-pseudo-input-element{width:100%;background-color:var(--bgc);margin-bottom:0;border-radius:10px 0 0 10px;border:var(--bsw) solid var(--bc)}.dsm-mt-inline-form .dsm-mt-btn-submit{display:inline-block!important;cursor:pointer!important;padding:0 10px!important;color:#fff!important;background-color:#007bff!important;text-align:center!important;vertical-align:middle!important;border-radius:0 10px 10px 0!important;border:var(--bsw) solid!important;border-color:var(--bc)!important;border-left:0!important;background-color:rgba(0,123,255,.96078)!important;-webkit-transition:all .3 ease;transition:all .3 ease}.dsm-mt-inline-form .dsm-mt-btn-submit:hover{opacity:.75!important;-webkit-transition:all .5 ease!important;transition:all .5 ease!important}.dsm-mt-inline-form .dsm-mt-tag-area{height:auto;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%!important}.dsm-mt-inline-form .tag,.dsm-mt-inline-form input{margin-top:5px;display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;white-space:nowrap}";
-  styleInject(css);
+  // styleInject(css);
 
   /**
    * Populates the multitag instance with tags provided in tagData
@@ -66,7 +66,7 @@
           return tag;
         };
       }
-      tagData.map(function(tag, i) {
+      tagData.map(function (tag, i) {
         multitag.makeTag(func(tag));
       });
     } else {
@@ -75,8 +75,8 @@
           return { key: key, value: tag };
         };
       }
-      d3.keys(tagData).map(function(key, i) {
-        tagData[key].map(function(tag, j) {
+      d3.keys(tagData).map(function (key, i) {
+        tagData[key].map(function (tag, j) {
           multitag.makeTag(func(key, tag));
         });
       });
@@ -195,9 +195,9 @@
       allows tags to wrap to the next line.
       */
       if (int == undefined) {
-        int = 7.7;
+        int = 200;
       }
-      d3.select(typeaheadInputArea).node().oninput = function() {
+      d3.select(typeaheadInputArea).node().oninput = function () {
         // console.log(d3.select(typeaheadInputArea).node())
         var v = d3.select(typeaheadInputArea).property("value");
         var l = v.length;
@@ -216,7 +216,7 @@
      */
     function arrowToMoveInputArea() {
       var tIA = d3.select(typeaheadInputArea); // there area where the user types
-      tIA.node().addEventListener("keydown", function(event) {
+      tIA.node().addEventListener("keydown", function (event) {
         var emptyInputQ = !tIA.property("value").length;
         if (emptyInputQ) {
           // only allow delete of tag if input is empty
@@ -242,7 +242,7 @@
      */
     function arrowControlForInputMovement(event) {
       // test to see if up keys are enabled
-      var upKeys = [leftArrow, upArrow].map(function(key, i) {
+      var upKeys = [leftArrow, upArrow].map(function (key, i) {
         if (hasQ(suggestionMovementKeys, key)) {
           return key;
         }
@@ -254,7 +254,7 @@
       }
 
       // test to see if down keys are enabled
-      var downKeys = [downArrow, rightArrow].map(function(key, i) {
+      var downKeys = [downArrow, rightArrow].map(function (key, i) {
         if (hasQ(suggestionMovementKeys, key)) {
           return key;
         }
@@ -279,12 +279,12 @@
       var inputIndex, numberOfElements, before;
 
       numberOfElements = pN.selectAll(".tag,input").size();
-      pN.selectAll(".tag,input").filter(function(d, i) {
+      pN.selectAll(".tag,input").filter(function (d, i) {
         if (d3.select(this).node().nodeName == "INPUT") {
           inputIndex = i;
         }
       });
-      pN.selectAll(".tag,input").filter(function(d, i) {
+      pN.selectAll(".tag,input").filter(function (d, i) {
         if (direction == "down" && i == inputIndex + 2) {
           before = d3.select(this);
         }
@@ -378,7 +378,7 @@
       var tL = d3.select(taggedList);
       var tIA = d3.select(typeaheadInputArea);
 
-      pIA.node().addEventListener("click", function(event) {
+      pIA.node().addEventListener("click", function (event) {
         if (debug) {
           console.log(
             "Clicked on pseduo input area. Focusing on typeahead input area"
@@ -397,7 +397,7 @@
      */
     function deleteTagOnBackspaceKeyPressIfTypeaheadInputEmpty() {
       var tIA = d3.select(typeaheadInputArea); // there area where the user types
-      tIA.node().addEventListener("keydown", function(event) {
+      tIA.node().addEventListener("keydown", function (event) {
         var emptyInputQ = !tIA.property("value").length;
         if (emptyInputQ) {
           // only allow delete of tag if input is empty
@@ -410,7 +410,7 @@
             } // nothing before input, return
             tagsParent
               .selectAll("." + hypenate(namespace, tagClass))
-              .each(function(d, i) {
+              .each(function (d, i) {
                 var datum = d3.select(this).datum();
                 if (datum == prev.datum()) {
                   removeTag(d, i);
@@ -430,7 +430,7 @@
      */
     function typeaheadPasteEvent() {
       var tIA = d3.select(typeaheadInputArea);
-      tIA.node().addEventListener("paste", function(event) {
+      tIA.node().addEventListener("paste", function (event) {
         var clipboard, pastedData;
         // prevent paste from happening
         event.stopPropagation();
@@ -443,7 +443,7 @@
         var putativeTags = pasteEventTextParser(pastedData);
 
         // for each tag after being parsed
-        putativeTags.map(function(pTag, tagIndex) {
+        putativeTags.map(function (pTag, tagIndex) {
           var tResult = bloodHound.get(pTag);
           if (tResult.length) {
             makeTagSyncFormSuggestionsAndInput(tResult[0]);
@@ -584,7 +584,7 @@
         return;
       }
       if (asyncQ) {
-        bloodHound.search(text, function() {}, syncSuggestions);
+        bloodHound.search(text, function () { }, syncSuggestions);
       } else {
         bloodHound.search(text, syncSuggestions);
       }
@@ -652,7 +652,7 @@
      */
     function syncTagsAndHiddenForm(tags) {
       var s = "";
-      tags.map(function(tag, ind) {
+      tags.map(function (tag, ind) {
         if (ind + 1 == tags.length) {
           s += tagToHidden(tag);
         } else {
@@ -720,8 +720,8 @@
       var numDups = d3
         .selectAll(
           '[id="' +
-            hypenate(namespace, tagClass, tagDataToTagText(tagData)) +
-            '"]'
+          hypenate(namespace, tagClass, tagDataToTagText(tagData)) +
+          '"]'
         )
         .size();
       tagEl.attr("tag-duplicate-number", numDups);
@@ -730,7 +730,7 @@
         .append("button")
         .attr("type", "button")
         .html("&times;")
-        .on("click", function(d, i) {
+        .on("click", function (d, i) {
           removeTag(d, i);
         });
 
@@ -798,7 +798,7 @@
     function emptyTypeaheadSuggestions() {
       d3.select("body")
         .node()
-        .addEventListener("click", function() {
+        .addEventListener("click", function () {
           // bloodHound.search('', syncSuggestions)
           // syncSuggestions([])
           clearSuggestions();
@@ -1069,7 +1069,7 @@
      */
     function arrowControlForSelectedSuggestion(event) {
       // test to see if up keys are enabled
-      var upKeys = [leftArrow, upArrow].map(function(key, i) {
+      var upKeys = [leftArrow, upArrow].map(function (key, i) {
         if (hasQ(suggestionMovementKeys, key)) {
           return key;
         }
@@ -1081,7 +1081,7 @@
       }
 
       // test to see if down keys are enabled
-      var downKeys = [downArrow, rightArrow].map(function(key, i) {
+      var downKeys = [downArrow, rightArrow].map(function (key, i) {
         if (hasQ(suggestionMovementKeys, key)) {
           return key;
         }
@@ -1177,7 +1177,7 @@
         // no duplicates allowed, lets dump them
         var tags = getTagsFromTaggedElements();
         for (var i = 0; i < tags.length; i++) {
-          suggestions = suggestions.filter(function(sug) {
+          suggestions = suggestions.filter(function (sug) {
             return tagDataToTagText(sug) !== tagDataToTagText(tags[i]);
           });
           // if (hasQ(suggestions, tags[i], tagDataToTagText)) {
@@ -1248,13 +1248,13 @@
 
       sugLis
         .data(suggestions)
-        .each(function(d, i) {
+        .each(function (d, i) {
           makeSuggestion(d3.select(this));
         })
-        .on("click", function(d, i) {
+        .on("click", function (d, i) {
           clickToTagSuggestion(d, i);
         })
-        .on("mouseover", function(d, i) {
+        .on("mouseover", function (d, i) {
           hoverToChangeSuggestion(d, i);
         });
       if (!sugLis.empty()) {
@@ -1367,14 +1367,14 @@
       qD.html("");
       if (badgeQ) {
         var classes = {};
-        tags.map(function(e, i) {
+        tags.map(function (e, i) {
           var b = tagDataToBadgeText(e);
           if (!hasQ(d3.keys(classes), b)) {
             classes[b] = [];
           }
           classes[b].push(tagDataToTagText(e));
         });
-        d3.keys(classes).map(function(c, i) {
+        d3.keys(classes).map(function (c, i) {
           if (i != 0) {
             qD.append("kbd").html(" and ");
           }
@@ -1382,7 +1382,7 @@
           d.append("strong").html(c);
           d.html(d.html() + ": (");
 
-          classes[c].map(function(e, i) {
+          classes[c].map(function (e, i) {
             if (i != 0) {
               d.append("kbd").html(" or ");
             }
@@ -1431,7 +1431,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.tagClass = function(_) {
+    multitag.tagClass = function (_) {
       return arguments.length ? ((tagClass = _), multitag) : tagClass;
     };
     /**
@@ -1443,7 +1443,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.suggestionClass = function(_) {
+    multitag.suggestionClass = function (_) {
       return arguments.length
         ? ((suggestionClass = _), multitag)
         : suggestionClass;
@@ -1458,7 +1458,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.hiddenInputArea = function(_) {
+    multitag.hiddenInputArea = function (_) {
       return arguments.length
         ? ((hiddenInputArea = toId(_)), multitag)
         : hiddenInputArea;
@@ -1472,7 +1472,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.typeaheadInputArea = function(_) {
+    multitag.typeaheadInputArea = function (_) {
       return arguments.length
         ? ((typeaheadInputArea = toId(_)), multitag)
         : typeaheadInputArea;
@@ -1486,7 +1486,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.typeaheadInputSuggestionList = function(_) {
+    multitag.typeaheadInputSuggestionList = function (_) {
       return arguments.length
         ? ((typeaheadInputSuggestionList = toId(_)), multitag)
         : typeaheadInputSuggestionList;
@@ -1500,7 +1500,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.taggedList = function(_) {
+    multitag.taggedList = function (_) {
       return arguments.length ? ((taggedList = toId(_)), multitag) : taggedList;
     };
 
@@ -1513,7 +1513,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.maxNumberOfTaggedItems = function(_) {
+    multitag.maxNumberOfTaggedItems = function (_) {
       return arguments.length
         ? ((maxNumberOfTaggedItems = _), multitag)
         : maxNumberOfTaggedItems;
@@ -1527,7 +1527,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.maxSuggestions = function(_) {
+    multitag.maxSuggestions = function (_) {
       return arguments.length
         ? ((maxSuggestions = _), multitag)
         : maxSuggestions;
@@ -1541,7 +1541,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.confirmInputKeys = function(_) {
+    multitag.confirmInputKeys = function (_) {
       return arguments.length
         ? ((confirmInputKeys = _), multitag)
         : confirmInputKeys;
@@ -1555,7 +1555,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.suggestionMovementKeys = function(_) {
+    multitag.suggestionMovementKeys = function (_) {
       return arguments.length
         ? ((suggestionMovementKeys = _), multitag)
         : suggestionMovementKeys;
@@ -1569,7 +1569,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.backwardsDeleteKeys = function(_) {
+    multitag.backwardsDeleteKeys = function (_) {
       return arguments.length
         ? ((backwardsDeleteKeys = _), multitag)
         : backwardsDeleteKeys;
@@ -1584,7 +1584,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.bloodHound = function(_) {
+    multitag.bloodHound = function (_) {
       return arguments.length ? ((bloodHound = _), multitag) : bloodHound;
     };
 
@@ -1597,7 +1597,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.alertArea = function(_) {
+    multitag.alertArea = function (_) {
       return arguments.length ? ((alertArea = toId(_)), multitag) : alertArea;
     };
     /**
@@ -1609,7 +1609,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.pseudoInputArea = function(_) {
+    multitag.pseudoInputArea = function (_) {
       return arguments.length
         ? ((pseudoInputArea = toId(_)), multitag)
         : pseudoInputArea;
@@ -1623,7 +1623,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.queryDescription = function(_) {
+    multitag.queryDescription = function (_) {
       return arguments.length
         ? ((queryDescription = toId(_)), multitag)
         : queryDescription;
@@ -1638,7 +1638,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.namespace = function(_) {
+    multitag.namespace = function (_) {
       return arguments.length ? ((namespace = _), multitag) : namespace;
     };
     /**
@@ -1650,7 +1650,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.debug = function(_) {
+    multitag.debug = function (_) {
       return arguments.length ? ((debug = _), multitag) : debug;
     };
     /**
@@ -1662,7 +1662,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.asyncQ = function(_) {
+    multitag.asyncQ = function (_) {
       return arguments.length ? ((asyncQ = _), multitag) : asyncQ;
     };
     /**
@@ -1674,7 +1674,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.badgeQ = function(_) {
+    multitag.badgeQ = function (_) {
       return arguments.length ? ((badgeQ = _), multitag) : badgeQ;
     };
     /**
@@ -1686,7 +1686,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.hiddenInputDelim = function(_) {
+    multitag.hiddenInputDelim = function (_) {
       return arguments.length
         ? ((hiddenInputDelim = _), multitag)
         : hiddenInputDelim;
@@ -1776,7 +1776,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.tagToHidden = function(_) {
+    multitag.tagToHidden = function (_) {
       return arguments.length ? ((tagToHidden = _), multitag) : tagToHidden;
     };
     /**
@@ -1787,7 +1787,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.makeTagElement = function(_) {
+    multitag.makeTagElement = function (_) {
       return arguments.length
         ? ((makeTagElement = _), multitag)
         : makeTagElement;
@@ -1800,7 +1800,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.removeTagElement = function(_) {
+    multitag.removeTagElement = function (_) {
       return arguments.length
         ? ((removeTagElement = _), multitag)
         : removeTagElement;
@@ -1813,7 +1813,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.pasteEventTextParser = function(_) {
+    multitag.pasteEventTextParser = function (_) {
       return arguments.length
         ? ((pasteEventTextParser = _), multitag)
         : pasteEventTextParser;
@@ -1826,7 +1826,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.parsePseudoInputAreaText = function(_) {
+    multitag.parsePseudoInputAreaText = function (_) {
       return arguments.length
         ? ((parsePseudoInputAreaText = _), multitag)
         : parsePseudoInputAreaText;
@@ -1839,7 +1839,7 @@
      * @memberof multitag
      * @property
      */
-    multitag.tagDataToTagText = function(_) {
+    multitag.tagDataToTagText = function (_) {
       return arguments.length
         ? ((tagDataToTagText = _), multitag)
         : tagDataToTagText;
@@ -1852,18 +1852,18 @@
      * @memberof multitag
      * @property
      */
-    multitag.tagDataToBadgeText = function(_) {
+    multitag.tagDataToBadgeText = function (_) {
       return arguments.length
         ? ((tagDataToBadgeText = _), multitag)
         : tagDataToBadgeText;
     };
 
-    multitag.submitErrorHandling = function(_) {
+    multitag.submitErrorHandling = function (_) {
       return arguments.length
         ? ((submitErrorHandling = _), multitag)
         : submitErrorHandling;
     };
-    multitag.submitHiddenForm = function(_) {
+    multitag.submitHiddenForm = function (_) {
       return arguments.length
         ? ((submitHiddenForm = _), multitag)
         : submitHiddenForm;

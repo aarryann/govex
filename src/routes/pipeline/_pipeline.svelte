@@ -34,7 +34,7 @@
   <title>{pagetitle}</title>
 </svelte:head>
 
-<PageHeader {sortData} {headertitle} view={viewtype} />
+<PageHeader {headertitle} view={viewtype} />
 
 <div class="content-body list-container animated hide">
   <ListItems {data} view={viewtype} {config} {id} />
