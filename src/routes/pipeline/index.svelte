@@ -5,7 +5,7 @@
 </script>
 
 <script>
-  import Pipeline from "./_pipeline.svelte";
+  import Pipeline from "./_controller.svelte";
 </script>
 
 <Pipeline />

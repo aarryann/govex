@@ -8,5 +8,5 @@ export default {
   cardwidth: 220,
   margin: 4,
   minboardwidth: 20,
-  viewtype: writable(ListConstants.VIEW_TYPE_ROLL)
+  sView: writable(ListConstants.VIEW_TYPE_ROLL)
 };
