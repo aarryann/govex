@@ -1,1 +1,1 @@
-docker run --expose 3000 --env PORT=3000 -p 3000:3000 --name govex_app aarryann/govex
+docker run -d --expose 4812 --env PORT=4812 -p 4812:4812 --name govex_app aarryann/govex

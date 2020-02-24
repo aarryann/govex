@@ -6,7 +6,7 @@
     "**/__snapshots__/*",
     "**/__image_snapshots__/*"
   ],
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "http://localhost:4812",
   "env": {},
   "video": false,
   "$schema": "https://on.cypress.io/cypress.schema.json"

@@ -18,8 +18,9 @@ WORKDIR /app
 COPY --from=0 /app .
 COPY . .
 
-#CMD ["node", "-r dotenv/config", "__sapper__/build"]
+EXPOSE 4812
+
 CMD ["node", "__sapper__/build"]
 
-#docker build -t yourusername/catnip .
-#docker run --expose 8889 --env PORT=8889 -p 8889:8889 yourusername/catnip
+#docker build -t aarryann/govex .
+#docker run -d --expose 4812 --env PORT=4812 -p 4812:4812 --name govex_app aarryann/govex
