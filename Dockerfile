@@ -1,11 +1,16 @@
 # IMPORTANT: Don't use this Dockerfile in your own Sapper projects without also looking at the .dockerignore file.
 # Without an appropriate .dockerignore, this Dockerfile will copy a large number of unneeded files into your image.
 
-FROM mhart/alpine-node:12
+FROM mhart/alpine-node:12 AS builder
 
 # install dependencies
 WORKDIR /app
 COPY package.json package-lock.json ./
+RUN npm ci 
+COPY . .
+
+RUN npm run build
+
 RUN npm ci --production
 
 ###
@@ -15,7 +20,7 @@ RUN npm ci --production
 FROM mhart/alpine-node:slim-12
 
 WORKDIR /app
-COPY --from=0 /app .
+COPY --from=builder /app .
 COPY . .
 
 EXPOSE 4812

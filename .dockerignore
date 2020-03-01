@@ -1,9 +1,10 @@
 /*
+!/src
+!/static
+!/data
+!/.env
 !/Dockerfile
 !/package.json
 !/package-lock.json
-!/__sapper__
-/__sapper__/*
-!/__sapper__/build
-!/static
-!/content
+!/rollup.config.js
+!/svelte.config.js
