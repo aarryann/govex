@@ -1,33 +1,65 @@
-<!doctype html>
-<html>
-<head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
-	<meta name='theme-color' content='#333333'>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-	%sapper.base%
+    %sapper.base%
 
-	<link rel='stylesheet' href='global.css'>
-	<link rel='manifest' href='manifest.json'>
-	<link rel='icon' type='image/png' href='favicon.png'>
-
-	<!-- Sapper generates a <style> tag containing critical CSS
-	     for the current page. CSS for the rest of the app is
-	     lazily loaded when it precaches secondary pages -->
-	%sapper.styles%
-
-	<!-- This contains the contents of the <svelte:head> component, if
-	     the current page has one -->
-	%sapper.head%
-</head>
-<body>
-	<!-- The application will be rendered inside this element,
-	     because `src/client.js` references it -->
-	<div id='sapper'>%sapper.html%</div>
-
-	<!-- Sapper creates a <script> tag containing `src/client.js`
-	     and anything else it needs to hydrate the app and
-	     initialise the router -->
-	%sapper.scripts%
-</body>
+    <link rel="manifest" href="/manifest.json" />
+    <!-- base:css -->
+    <link
+      rel="stylesheet"
+      href="/vendors/mdi/css/materialdesignicons.min.css"
+    />
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="/vendors/animate.css/css/animate.min.css" />
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- Sapper generates a <style> tag containing critical CSS for the current page. CSS for the rest of the app is lazily loaded when it precaches secondary pages -->
+    %sapper.styles%
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css" />
+    <!-- endinject -->
+    <style>
+      #sapper {
+        padding: 0px;
+      }
+      body {
+        background-color: #f8f9fb;
+      }
+    </style>
+    <link rel="shortcut icon" href="/img/favicon.png" />
+    <!-- This contains the contents of the <svelte:head> component, if the current page has one -->
+    %sapper.head%
+  </head>
+  <body class="sidebar-fixed">
+    <!-- The application will be rendered inside this element, because `src/client.js` references it -->
+    <div id="sapper" class="container-scroller">%sapper.html%</div>
+    <!-- Sapper creates a <script> tag containing `src/client.js` and anything else it needs to hydrate the app and initialise the router -->
+    <!-- inject:js -->
+    %sapper.scripts%
+    <!-- end:inject:js -->
+    <!-- base:js-start -->
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <!-- end:base:js -->
+    <!-- multitag -->
+    <script src="/js/d3.js"></script>
+    <script src="/js/typeahead.bundle.min.js"></script>
+    <script src="/js/bstag.js"></script>
+    <!-- end:multitag -->
+    <!-- libraries -->
+    <script src="/thm/off-canvas.js"></script>
+    <script src="/thm/hoverable-collapse.js"></script>
+    <script src="/thm/template.js"></script>
+    <script src="/thm/settings.js"></script>
+    <script src="/thm/todolist.js"></script>
+    <!-- end:libraries -->
+  </body>
 </html>

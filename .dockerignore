@@ -1,0 +1,10 @@
+/*
+!/src
+!/static
+!/data
+!/.env
+!/Dockerfile
+!/package.json
+!/package-lock.json
+!/rollup.config.js
+!/svelte.config.js
