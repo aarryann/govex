@@ -5,9 +5,5 @@
 /cypress/screenshots/
 /node_modules/
 /src/node_modules/@sapper/
-/src/components/
-/src/utils/
-/src/plugins/
-
 /data/
 /.docs/
