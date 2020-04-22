@@ -7,7 +7,7 @@
 <script>
   import config from "./_config";
   import { ListConstants as LC } from "../../conf/config";
-  import { sHeaderAddon } from "../../components/stores.js";
+  import { sHeaderAddon } from "../../stores.js";
   import PageHeader from "../../components/controls/list-page-header.svelte";
   import Roll from "../../plugins/listitems/roll.svelte";
   import Board from "../../plugins/listitems/board.svelte";

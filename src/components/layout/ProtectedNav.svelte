@@ -6,7 +6,7 @@
   import NavSearch from "./NavSearch.svelte";
 
   export let segment;
-  let navItems = GetGroupNav();
+  let navItems;
   $: selected = segment == undefined ? "dashboard" : segment;
   const unsubscribe = sNavItems.subscribe(value => {
     navItems = value;
