@@ -1,7 +1,7 @@
 <script>
   import { setContext } from "svelte";
   import { goto, stores } from "@sapper/app";
-  import { GetGroupNav } from "../../conf/nav";
+  import { GetGroupNav } from "../../config/nav";
   import { sNavItems } from "../../stores";
   import NavSearch from "./NavSearch.svelte";
 

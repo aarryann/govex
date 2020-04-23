@@ -6,7 +6,7 @@
 
 <script>
   import config from "./_config";
-  import { ListConstants as LC } from "../../conf/config";
+  import { ListConstants as LC } from "../../config/config";
   import { sHeaderAddon } from "../../stores.js";
   import PageHeader from "../../components/controls/list-page-header.svelte";
   import Roll from "../../plugins/listitems/roll.svelte";

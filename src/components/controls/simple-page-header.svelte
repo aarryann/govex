@@ -1,5 +1,5 @@
 <script>
-  import { ListConstants } from "../../conf/config";
+  import { ListConstants } from "../../config/config";
   export let title;
 </script>
 

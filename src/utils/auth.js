@@ -1,5 +1,6 @@
 import * as cookie from 'cookie';
 import jwt from 'jsonwebtoken';
+import config from '../config';
 
 export const authenticate = () => {
   return async (req, res, next) => {
@@ -7,7 +8,7 @@ export const authenticate = () => {
 
     if (req.cookies.sid) {
       req.sid = req.cookies.sid;
-      const { user } = jwt.decode(req.cookies.sid, process.env.APP_SECRET);
+      const { user } = jwt.decode(req.cookies.sid, config.APP_SECRET);
       req.user = user;
     }
 

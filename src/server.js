@@ -9,6 +9,7 @@ import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
 import { getMe, knex, pubsub } from './api/helpers/utils';
 import { createServer } from 'http';
+import cors from 'cors';
 
 const { json } = require('body-parser');
 
@@ -22,6 +23,20 @@ const app = polka({
     res.headersSent || send(res, code, { error });
   },
 });
+
+const whitelist = ['http://localhost:3000', 'http://localhost:4812'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS - Origin - ${origin}`));
+    }
+  },
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.options('*', cors());
+app.use('*', cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs,

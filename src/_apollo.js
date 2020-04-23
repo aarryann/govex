@@ -1,23 +1,30 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, split } from "apollo-boost";
-import * as ws from "ws";
-import { WebSocketLink } from "apollo-link-ws";
-import { getMainDefinition } from "apollo-utilities";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  split,
+} from 'apollo-boost';
+import * as ws from 'ws';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+import config from './config';
 
 export function createApolloClient(token) {
-  const httpLink = new HttpLink({ uri: process.env.ENV_API_URL });
+  const httpLink = new HttpLink({ uri: config.API_URL });
   const wsLink = new WebSocketLink({
-    uri: process.env.ENV_SOCKET_URL,
+    uri: config.SOCKET_URL,
     options: {
       reconnect: true,
-      lazy: true
+      lazy: true,
     },
-    webSocketImpl: ws
+    webSocketImpl: ws,
   });
   const terminatingLink = process.browser
     ? split(
         ({ query }) => {
           const { kind, operation } = getMainDefinition(query);
-          return kind === "OperationDefinition" && operation === "subscription";
+          return kind === 'OperationDefinition' && operation === 'subscription';
         },
         wsLink,
         httpLink
@@ -25,14 +32,14 @@ export function createApolloClient(token) {
     : httpLink;
   const authLink = new ApolloLink((operation, forward) => {
     // Retrieve the authorization token from local storage.
-    // const token = localStorage.getItem(process.env.ENV_TOKEN_NAME);
+    // const token = localStorage.getItem(config.ENV_TOKEN_NAME);
 
     // Use the setContext method to set the HTTP headers.
     operation.setContext({
       headers: {
-        "content-type": "application/json",
-        authorization: token ? `Bearer ${token}` : ""
-      }
+        'content-type': 'application/json',
+        authorization: token ? `Bearer ${token}` : '',
+      },
     });
 
     // Call the next link in the middleware chain.
@@ -46,7 +53,7 @@ export function createApolloClient(token) {
   const clientOptions = () => {
     return {
       link: authLink.concat(link),
-      cache: new InMemoryCache()
+      cache: new InMemoryCache(),
     };
   };
 

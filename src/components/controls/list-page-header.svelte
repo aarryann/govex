@@ -1,6 +1,6 @@
 <script>
   import { goto, stores } from "@sapper/app";
-  import { ListConstants } from "../../conf/config";
+  import { ListConstants } from "../../config/config";
   export let headertitle;
   export let sView;
   export let headerAddon;

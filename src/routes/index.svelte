@@ -1,5 +1,5 @@
 <script>
-  import { TitleConstants } from "../conf/config";
+  import { TitleConstants } from "../config/config";
   import PageHeader from "../components/controls/simple-page-header.svelte";
   import LandingPage from "../components/layout/Home.svelte";
 

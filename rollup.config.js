@@ -1,14 +1,22 @@
-import 'dotenv/config';
+import { config } from 'dotenv';
 import replace from '@rollup/plugin-replace';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import dotenvPlugin from 'rollup-plugin-dotenv';
+import builtins from 'rollup-plugin-node-builtins';
 import resolve from 'rollup-plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
-import config from 'sapper/config/rollup.js';
+import rollupConfig from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
+
+const { NODE_ENV, CUSTOM_ENV } = process.env;
+if (!process.env.CUSTOM_ENV) {
+  throw new Error('CUSTOM environment variable is not set');
+}
+const pathName = `${__dirname}/src/secrets/${NODE_ENV}-${CUSTOM_ENV}.env`;
+config({ path: pathName });
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -33,9 +41,10 @@ const preprocess = sveltePreprocess({
 
 export default {
   client: {
-    input: config.client.input(),
-    output: config.client.output(),
+    input: rollupConfig.client.input(),
+    output: rollupConfig.client.output(),
     plugins: [
+      builtins(),
       commonjs(),
       dotenvPlugin(),
       replace({
@@ -88,9 +97,10 @@ export default {
   },
 
   server: {
-    input: config.server.input(),
-    output: config.server.output(),
+    input: rollupConfig.server.input(),
+    output: rollupConfig.server.output(),
     plugins: [
+      builtins(),
       commonjs(),
       dotenvPlugin(),
       replace({
@@ -115,9 +125,10 @@ export default {
   },
 
   serviceworker: {
-    input: config.serviceworker.input(),
-    output: config.serviceworker.output(),
+    input: rollupConfig.serviceworker.input(),
+    output: rollupConfig.serviceworker.output(),
     plugins: [
+      builtins(),
       commonjs(),
       dotenvPlugin(),
       resolve(),

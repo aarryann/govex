@@ -1,6 +1,6 @@
 <script>
-  import { Nav } from "../../conf/config";
-  import { GetGroupNav } from "../../conf/nav";
+  import { Nav } from "../../config/config";
+  import { GetGroupNav } from "../../config/nav";
   import { sNavItems } from "../../stores";
 
   export let segment;

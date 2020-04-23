@@ -1,4 +1,4 @@
-import { TitleConstants, ListConstants } from "../../conf/config";
+import { TitleConstants, ListConstants } from "../../config/config";
 import { writable } from "svelte/store";
 
 export default {
