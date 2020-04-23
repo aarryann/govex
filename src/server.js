@@ -5,9 +5,9 @@ import * as sapper from '@sapper/server';
 import { ApolloServer } from 'apollo-server-express';
 import { authenticate, sanitizeUser } from './utils/auth';
 import fetch from 'node-fetch';
-import resolvers from './server/resolvers';
-import typeDefs from './server/typedefs';
-import { getMe, knex, pubsub } from './server/helpers/utils';
+import resolvers from './api/resolvers';
+import typeDefs from './api/typedefs';
+import { getMe, knex, pubsub } from './api/helpers/utils';
 import { createServer } from 'http';
 
 const { json } = require('body-parser');
