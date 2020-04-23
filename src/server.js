@@ -16,6 +16,7 @@ const { json } = require('body-parser');
 global.fetch = fetch;
 
 const { PORT = 3000, NODE_ENV } = process.env;
+
 const app = polka({
   onError: (err, req, res) => {
     const error = err.message || err;
