@@ -18,7 +18,6 @@
       password
     });
 
-    // TODO handle network errors
     if (r.errors) {
       errors = r.errors;
     } else {

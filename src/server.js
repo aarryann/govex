@@ -5,6 +5,7 @@ import * as sapper from '@sapper/server';
 import { ApolloServer } from 'apollo-server-express';
 import { authenticate, sanitizeUser } from './utils/auth';
 import fetch from 'node-fetch';
+import helmet from 'helmet';
 import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
 import { getMe, knex, pubsub } from './api/helpers/utils';

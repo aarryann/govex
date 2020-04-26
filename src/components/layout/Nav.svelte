@@ -23,7 +23,6 @@
     // Post to return token as HttpOnly cookie and user to session 5 lines below
     const r = await post(`/auth/login`, data);
 
-    // TODO handle network errors
     if (r.errors) return (errors = r.errors);
     else {
       $session.user = r;
