@@ -2,6 +2,8 @@
 # Without an appropriate .dockerignore, this Dockerfile will copy a large number of unneeded files into your image.
 
 FROM mhart/alpine-node:12 AS builder
+ENV NODE_ENV=development
+ENV MODE_ENV=local
 
 # install dependencies
 WORKDIR /app

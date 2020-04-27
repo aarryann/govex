@@ -11,12 +11,17 @@ import typeDefs from './api/typedefs';
 import { getMe, knex, pubsub } from './api/helpers/utils';
 import { createServer } from 'http';
 import cors from 'cors';
+import config from '../src/config';
 
+// TODO Convert to Express
+// TODO Add Helmet
+// TODO Add same origin
+// TODO Add Apollo Federation
 const { json } = require('body-parser');
 
 global.fetch = fetch;
 
-const { PORT = 3000, NODE_ENV } = process.env;
+const { PORT } = config;
 
 const app = polka({
   onError: (err, req, res) => {
@@ -26,7 +31,7 @@ const app = polka({
   },
 });
 
-const whitelist = ['http://localhost:3000', 'http://localhost:4812'];
+const whitelist = [`${config.PROTOCOL}://${config.HOST}:${config.PORT}`];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -43,10 +48,6 @@ app.use('*', cors(corsOptions));
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  playground: {
-    endpointURL: '/graphql',
-    subscriptionsEndpoint: `ws://localhost:4812/subscriptions`,
-  },
   formatError: (error) => ({
     message: error.message,
     locations: error.locations,
@@ -79,14 +80,14 @@ const server = new ApolloServer({
     return ctx;
   },
 });
-server.applyMiddleware({ app, path: '/graphql' });
+server.applyMiddleware({ app, path: `/${config.GRAPHQL_EXT}` });
 
 const { handler } = app.use(
   json(),
   authenticate(),
   compression({ threshold: 0 }),
   sirv('static', {
-    dev: NODE_ENV === 'development',
+    dev: config.IS_DEV,
     setHeaders(res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.hasHeader('Cache-Control') ||
@@ -100,10 +101,6 @@ const { handler } = app.use(
     }),
   })
 );
-/* .listen(PORT, (err) => {
-    if (err) console.log('error', err);
-  }); */
-// const httpServer = createServer(app);
 const httpServer = createServer(handler);
 server.installSubscriptionHandlers(httpServer);
 httpServer.listen({ port: PORT }, () => {

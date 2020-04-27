@@ -10,15 +10,14 @@ import rollupConfig from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
 
-const { NODE_ENV, CUSTOM_ENV } = process.env;
-if (!process.env.CUSTOM_ENV) {
-  throw new Error('CUSTOM environment variable is not set');
+const { NODE_ENV, MODE_ENV } = process.env;
+if (!NODE_ENV || !MODE_ENV) {
+  throw new Error('Required environment variables are not set');
 }
-const pathName = `${__dirname}/src/secrets/${NODE_ENV}-${CUSTOM_ENV}.env`;
+const pathName = `${__dirname}/src/secrets/.env.${NODE_ENV}.${MODE_ENV}`;
 config({ path: pathName });
 
-const mode = process.env.NODE_ENV;
-const dev = mode === 'development';
+const dev = NODE_ENV === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 const onwarn = (warning, onwarn) =>
@@ -47,7 +46,7 @@ export default {
       commonjs(),
       replace({
         'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       }),
       resolve({
         browser: true,
@@ -102,7 +101,7 @@ export default {
       commonjs(),
       replace({
         'process.browser': false,
-        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       }),
       resolve({
         dedupe,
@@ -130,7 +129,7 @@ export default {
       resolve(),
       replace({
         'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
       }),
       !dev && terser(),
     ],

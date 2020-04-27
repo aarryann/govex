@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  app:
+    build: ./
+    image: webapp:tag
+    container_name: apper
+    expose: [4813]
+    extra_hosts:
+      - 'database:192.168.1.202'
+    init: true
+    ports:
+      - '4813:4813'

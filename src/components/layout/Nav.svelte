@@ -5,6 +5,7 @@
   import { getClient, query, mutate } from "svelte-apollo";
   import { mutations, queries } from "../../routes/auth/_queries.js";
   import { SessionCache } from "../../config/config.js";
+  import config from "../../config";
 
   const { session } = stores();
 
@@ -16,7 +17,7 @@
 
   async function submit(event) {
     if (!event.target.checkValidity()) return;
-    let results = await signIn(email, password, "http://localhost:3000");
+    let results = await signIn(email, password, config.APP_URL);
     if (results.error) return (errors = results.error);
     const data = results.data;
     // console.log(JSON.stringify(data, null, " "));
