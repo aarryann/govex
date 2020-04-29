@@ -5,13 +5,14 @@ import * as sapper from '@sapper/server';
 import { ApolloServer } from 'apollo-server-express';
 import { authenticate, sanitizeUser } from './utils/auth';
 import fetch from 'node-fetch';
-import helmet from 'helmet';
 import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
 import { getMe, knex, pubsub } from './api/helpers/utils';
 import { createServer } from 'http';
 import cors from 'cors';
-import config from '../src/config';
+import serverConfig from '../src/config/serverConfig';
+
+const { NODE_ENV, MODE_ENV } = serverConfig;
 
 // TODO Convert to Express
 // TODO Add Helmet
@@ -21,7 +22,7 @@ const { json } = require('body-parser');
 
 global.fetch = fetch;
 
-const { PORT } = config;
+const { PORT } = serverConfig;
 
 const app = polka({
   onError: (err, req, res) => {
@@ -31,7 +32,9 @@ const app = polka({
   },
 });
 
-const whitelist = [`${config.PROTOCOL}://${config.HOST}:${config.PORT}`];
+const whitelist = [
+  `${serverConfig.PROTOCOL}://${serverConfig.HOST}:${serverConfig.PORT}`,
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -42,8 +45,8 @@ const corsOptions = {
   },
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-app.options('*', cors());
-app.use('*', cors(corsOptions));
+// app.options('*', cors());
+// app.use('*', cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs,
@@ -80,14 +83,14 @@ const server = new ApolloServer({
     return ctx;
   },
 });
-server.applyMiddleware({ app, path: `/${config.GRAPHQL_EXT}` });
+server.applyMiddleware({ app, path: `/${serverConfig.GRAPHQL_EXT}` });
 
 const { handler } = app.use(
   json(),
   authenticate(),
   compression({ threshold: 0 }),
   sirv('static', {
-    dev: config.IS_DEV,
+    dev: serverConfig.IS_DEV,
     setHeaders(res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.hasHeader('Cache-Control') ||
@@ -98,12 +101,16 @@ const { handler } = app.use(
     session: (req) => ({
       user: sanitizeUser(req.user),
       token: req.sid,
+      apiUrl: serverConfig.API_URL,
+      wsUrl: serverConfig.SOCKET_URL,
+      tokenHandle: serverConfig.TOKEN_HANDLE,
+      appUrl: serverConfig.APP_URL,
     }),
   })
 );
 const httpServer = createServer(handler);
 server.installSubscriptionHandlers(httpServer);
-httpServer.listen({ port: PORT }, () => {
+app.listen({ port: PORT }, () => {
   console.log(
     `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
   );

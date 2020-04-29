@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { goto, stores } from "@sapper/app";
-  import { post } from "utils.js";
+  import { post } from "@lib/utils.js";
   import { getClient, query, mutate } from "svelte-apollo";
   import { mutations, queries } from "../../routes/auth/_queries.js";
   import { SessionCache } from "../../config/config.js";
@@ -12,40 +12,25 @@
   let email = "";
   let emailInput;
   let password = "";
-  let errors = null;
   const client = getClient();
 
   async function submit(event) {
     if (!event.target.checkValidity()) return;
-    let results = await signIn(email, password, config.APP_URL);
-    if (results.error) return (errors = results.error);
-    const data = results.data;
-    // console.log(JSON.stringify(data, null, " "));
-    // Post to return token as HttpOnly cookie and user to session 5 lines below
-    const r = await post(`/auth/login`, data);
 
-    if (r.errors) return (errors = r.errors);
-    else {
-      $session.user = r;
-    }
-    goto("/pipeline");
-  }
-
-  async function signIn(email, password, url) {
     try {
-      // client.clearStore();
-      const payload = {
-        mutation: mutations.login,
-        variables: { email, password, url }
-      };
-      const results = await mutate(client, payload);
-      if (results.error) return { error: results.error.message };
+      const r = await post(`/auth/login`, { username: email, password });
 
-      const data = results.data.login;
-      return { data };
-    } catch (e) {
-      console.log(`Error#SignIn: ${e}`);
-      return { error: e.message };
+      if (r.status === 200) {
+        session.set({ user: r.user });
+        goto("/pipeline");
+      } else {
+        throw new Error(r.errors);
+      }
+    } catch (error) {
+      console.error(
+        "You have an error in your code or there are Network issues.",
+        error.message
+      );
     }
   }
 

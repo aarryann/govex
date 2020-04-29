@@ -8,12 +8,13 @@ import {
 import * as ws from 'ws';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
-import config from './config';
 
-export function createApolloClient(token) {
-  const httpLink = new HttpLink({ uri: config.API_URL });
+export function createApolloClient(session) {
+  // const httpLink = new HttpLink({ uri: session.apiUrl });
+  const httpLink = new HttpLink({ uri: 'http://localhost:4812/graphql' });
   const wsLink = new WebSocketLink({
-    uri: config.SOCKET_URL,
+    // uri: session.wsUrl,
+    uri: 'ws://localhost:4812/graphql',
     options: {
       reconnect: true,
       lazy: true,
@@ -32,13 +33,13 @@ export function createApolloClient(token) {
     : httpLink;
   const authLink = new ApolloLink((operation, forward) => {
     // Retrieve the authorization token from local storage.
-    // const token = localStorage.getItem(config.ENV_TOKEN_NAME);
+    // const token = localStorage.getItem(session.tokenHandle);
 
     // Use the setContext method to set the HTTP headers.
     operation.setContext({
       headers: {
         'content-type': 'application/json',
-        authorization: token ? `Bearer ${token}` : '',
+        authorization: session.token ? `Bearer ${session.token}` : '',
       },
     });
 

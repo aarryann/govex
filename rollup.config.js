@@ -9,13 +9,13 @@ import { terser } from 'rollup-plugin-terser';
 import rollupConfig from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
+import serverConfig, { pathName } from './src/config/serverConfig';
 
+config({ path: pathName });
 const { NODE_ENV, MODE_ENV } = process.env;
 if (!NODE_ENV || !MODE_ENV) {
   throw new Error('Required environment variables are not set');
 }
-const pathName = `${__dirname}/src/secrets/.env.${NODE_ENV}.${MODE_ENV}`;
-config({ path: pathName });
 
 const dev = NODE_ENV === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;

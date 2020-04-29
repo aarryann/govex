@@ -20,12 +20,14 @@ RUN npm ci --production
 # ~> Saves 35MB
 ###
 FROM mhart/alpine-node:slim-12
+ENV NODE_ENV=development
+ENV MODE_ENV=local
 
 WORKDIR /app
 COPY --from=builder /app .
 COPY . .
 
-EXPOSE 4812
+EXPOSE 4813
 
 CMD ["node", "__sapper__/build"]
 

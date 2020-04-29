@@ -1,7 +1,7 @@
 <script>
   import { goto, stores } from "@sapper/app";
   import ListErrors from "../../components/scaffold/ListErrors.svelte";
-  import { post } from "utils.js";
+  import { post } from "@lib/utils.js";
 
   const { session } = stores();
 
@@ -13,17 +13,21 @@
     if (!event.target.checkValidity()) {
       return;
     }
-    const r = await post(`/auth/login`, {
-      email,
-      password
-    });
+    try {
+      const r = await post(`/auth/login`, { username: email, password });
 
-    if (r.errors) {
-      errors = r.errors;
-    } else {
-      session.set({ user: r });
+      if (r.errors) {
+        errors = r.errors;
+      } else {
+        session.set({ user: r });
+        goto("/");
+      }
+    } catch (error) {
+      console.error(
+        "You have an error in your code or there are Network issues.",
+        error
+      );
     }
-    goto("/");
   }
 </script>
 
