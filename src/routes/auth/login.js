@@ -23,13 +23,12 @@ export const post = async (req, res, next) => {
   try {
     const login = await authenticate('local', req, res);
     // session is the payload to save in the token, it may contain basic info about the user
-    console.log(login);
+    // console.log(login);
     const { token, user } = login;
     // The token is a string with the encrypted session
     // const token = await encryptSession(session);
 
     setTokenCookie(res, token);
-    // res.end('{ done: true, status: 200 }');
     const { id, email } = user;
     const data = { user: { id, email }, done: true, status: 200 };
     send(res, 200, JSON.stringify(data), {
