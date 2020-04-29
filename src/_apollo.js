@@ -10,11 +10,9 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
 export function createApolloClient(session) {
-  // const httpLink = new HttpLink({ uri: session.apiUrl });
-  const httpLink = new HttpLink({ uri: 'http://localhost:4812/graphql' });
+  const httpLink = new HttpLink({ uri: session.apiUrl });
   const wsLink = new WebSocketLink({
-    // uri: session.wsUrl,
-    uri: 'ws://localhost:4812/graphql',
+    uri: session.wsUrl,
     options: {
       reconnect: true,
       lazy: true,
