@@ -1,6 +1,6 @@
 import * as cookie from 'cookie';
 import jwt from 'jsonwebtoken';
-import config from '../config';
+import config from '../config/serverConfig';
 
 export const authenticate = () => {
   return async (req, res, next) => {

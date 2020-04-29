@@ -5,7 +5,6 @@
   import { getClient, query, mutate } from "svelte-apollo";
   import { mutations, queries } from "../../routes/auth/_queries.js";
   import { SessionCache } from "../../config/config.js";
-  import config from "../../config";
 
   const { session } = stores();
 
