@@ -49,7 +49,6 @@
           event.target.style.background = "purple";
           // event.target.classList.add("dragover");
         } else if (event.target.classList.contains("draggable")) {
-          // console.log(event.target.parentNode);
         }
       },
       false

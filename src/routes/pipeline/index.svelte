@@ -5,6 +5,7 @@
 </script>
 
 <script>
+  import { stores } from "@sapper/app";
   import Pipeline from "./_controller.svelte";
 </script>
 

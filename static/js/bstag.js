@@ -198,7 +198,6 @@
         int = 200;
       }
       d3.select(typeaheadInputArea).node().oninput = function () {
-        // console.log(d3.select(typeaheadInputArea).node())
         var v = d3.select(typeaheadInputArea).property("value");
         var l = v.length;
         var w = l == -1 ? 0 : (l + 1) * int;

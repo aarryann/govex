@@ -7,17 +7,28 @@ import { authenticate, sanitizeUser } from './utils/auth';
 import fetch from 'node-fetch';
 import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
-import { getMe, knex, pubsub } from './api/helpers/utils';
+import { getMe, getKnex, pubsub } from './api/helpers/utils';
 import { createServer } from 'http';
 import cors from 'cors';
-import serverConfig from '../src/config/serverConfig';
+import serverConfig from '../src/config/loadConfig';
 
 const { NODE_ENV, MODE_ENV } = serverConfig;
+const knex = getKnex();
 
 // TODO Convert to Express
 // TODO Add Helmet
 // TODO Add same origin
 // TODO Add Apollo Federation
+// TODO Add https
+// TODO Complete Docker
+// TODO Encrypt user or remove userid from session
+// TODO apiurl in object session
+// TODO Change server file extensions to .server.js
+// TODO Move @lib from node_modules
+// TODO Split databases: Opp info from one database, user info from other
+// TODO Logout remove cokkies
+// TODO Avoid Refresh log out
+
 const { json } = require('body-parser');
 
 global.fetch = fetch;
@@ -45,8 +56,8 @@ const corsOptions = {
   },
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-// app.options('*', cors());
-// app.use('*', cors(corsOptions));
+app.options('*', cors());
+app.use('*', cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs,

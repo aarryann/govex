@@ -20,7 +20,7 @@
       const r = await post(`/auth/login`, { username: email, password });
 
       if (r.status === 200) {
-        session.set({ user: r.user });
+        session.set({ user: r.user, token: r.token });
         goto("/pipeline");
       } else {
         throw new Error(r.errors);

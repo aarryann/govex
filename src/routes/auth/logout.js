@@ -1,13 +1,12 @@
-import send from "@polka/send";
-import * as cookie from "cookie";
-import Actions from "./_actions";
+import send from '@polka/send';
+import * as cookie from 'cookie';
 
 export async function get(req, res) {
-  send(res, 200, "", {
-    "Set-Cookie": cookie.serialize("sid", "", {
+  send(res, 200, '', {
+    'Set-Cookie': cookie.serialize(process.env.TOKEN_HANDLE, '', {
       maxAge: -1,
-      path: "/",
-      httpOnly: true
-    })
+      path: '/',
+      httpOnly: true,
+    }),
   });
 }

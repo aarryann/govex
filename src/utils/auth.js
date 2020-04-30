@@ -1,19 +1,26 @@
 import * as cookie from 'cookie';
 import jwt from 'jsonwebtoken';
-import config from '../config/serverConfig';
+import serverConfig from '../config/loadConfig';
 
 export const authenticate = () => {
   return async (req, res, next) => {
     req.cookies = cookie.parse(req.headers.cookie || '');
+    const sid = serverConfig.TOKEN_HANDLE;
 
-    if (req.cookies.sid) {
-      req.sid = req.cookies.sid;
-      const { user } = jwt.decode(req.cookies.sid, config.APP_SECRET);
+    if (req.cookies[sid]) {
+      req.sid = req.cookies[sid];
+      const { user } = jwt.decode(req.sid, serverConfig.APP_SECRET);
       req.user = user;
+    } else {
+      req.sid = null;
+      req.user = null;
     }
 
     next();
   };
 };
 
-export const sanitizeUser = (obj) => obj && { userId: obj.userId };
+// Strip off other aatributes and retain only userId
+export const sanitizeUser = (obj) => {
+  return obj && { userId: obj.userId };
+};
