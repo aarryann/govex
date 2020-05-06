@@ -1,5 +1,5 @@
 import sirv from 'sirv';
-import polka from 'polka';
+import express from 'express';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
 import { ApolloServer } from 'apollo-server-express';
@@ -8,12 +8,15 @@ import fetch from 'node-fetch';
 import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
 import { getMe, getKnex, pubsub } from './api/helpers/utils';
-import { createServer } from 'http';
+import { createServer } from 'https';
 import cors from 'cors';
-import serverConfig from '../src/config/loadConfig';
+import serverConfig, { DIR } from '../src/config/loadConfig';
+import fs from 'fs';
 
 const { NODE_ENV, MODE_ENV } = serverConfig;
 const knex = getKnex();
+// console.log(knex.context);
+// console.log(knex.client.config.connection);
 
 // TODO Convert to Express
 // TODO Add Helmet
@@ -26,16 +29,16 @@ const knex = getKnex();
 // TODO Change server file extensions to .server.js
 // TODO Move @lib from node_modules
 // TODO Split databases: Opp info from one database, user info from other
-// TODO Logout remove cokkies
-// TODO Avoid Refresh log out
+// TODO Logout remove cokkies// TODO Avoid Refresh log out
 
 const { json } = require('body-parser');
 
 global.fetch = fetch;
 
-const { PORT } = serverConfig;
+// const { PORT } = serverConfig;
+const PORT = 443;
 
-const app = polka({
+const app = express({
   onError: (err, req, res) => {
     const error = err.message || err;
     const code = err.code || err.status || 500;
@@ -44,7 +47,10 @@ const app = polka({
 });
 
 const whitelist = [
-  `${serverConfig.PROTOCOL}://${serverConfig.HOST}:${serverConfig.PORT}`,
+  'https://localhost',
+  'https://yoxye.org',
+  'https://myserver.org:443',
+  'https://myserver.org',
 ];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -95,15 +101,14 @@ const server = new ApolloServer({
   },
 });
 server.applyMiddleware({ app, path: `/${serverConfig.GRAPHQL_EXT}` });
-
-const { handler } = app.use(
+console.log(serverConfig.GRAPHQL_EXT);
+app.use(
   json(),
   authenticate(),
   compression({ threshold: 0 }),
   sirv('static', {
     dev: serverConfig.IS_DEV,
     setHeaders(res) {
-      res.setHeader('Access-Control-Allow-Origin', '*');
       res.hasHeader('Cache-Control') ||
         res.setHeader('Cache-Control', 'max-age=600'); // 10min default
     },
@@ -119,9 +124,16 @@ const { handler } = app.use(
     }),
   })
 );
-const httpServer = createServer(handler);
-server.installSubscriptionHandlers(httpServer);
-app.listen({ port: PORT }, () => {
+// set NODE_EXTRA_CA_CERTS=./myserver.org-fullchain.cert.pem
+const httpServer = createServer(
+  {
+    key: fs.readFileSync(`${DIR}/myserver.org.nopass.key.pem`, 'utf8'),
+    cert: fs.readFileSync(`${DIR}/myserver.org.cert.pem`, 'utf8'),
+  },
+  app
+);
+// server.installSubscriptionHandlers(httpServer);
+httpServer.listen({ port: PORT }, () => {
   console.log(
     `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
   );

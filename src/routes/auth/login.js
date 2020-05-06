@@ -19,6 +19,7 @@ const authenticate = (method, req, res) => {
 
 passport.use(localStrategy);
 export const post = async (req, res, next) => {
+  console.log(1);
   passport.initialize();
   try {
     const login = await authenticate('local', req, res);
@@ -33,7 +34,8 @@ export const post = async (req, res, next) => {
     send(res, 200, JSON.stringify(data), {
       'Content-Type': 'application/json; charset=utf-8',
     });
-  } catch (error) {
+  } catch (errors) {
+    console.log(errors);
     const e = { errors, ok: false, status: 500 };
     send(res, 500, JSON.stringify(e), {
       'Content-Type': 'application/json; charset=utf-8',

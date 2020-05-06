@@ -14,11 +14,11 @@
     "build:local": "cross-env NODE_ENV=production MODE_ENV=local PORT=4812 npm run build && npm run start",
     "build:staging": "cross-env NODE_ENV=production MODE_ENV=staging PORT=4812 npm run build && npm run start",
     "build:analyze": "cross-env ANALYZE=true NODE_ENV=production MODE_ENV=production PORT=4812 npm run dev",
-    "build:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=4812 npm run build",
+    "build:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=443 npm run build",
     "start:dev": "cross-env NODE_ENV=development MODE_ENV=local PORT=4812 npm run start --expose-http2",
     "start:local": "cross-env NODE_ENV=production MODE_ENV=local PORT=4812 npm run start --expose-http2 ",
     "start:staging": "cross-env NODE_ENV=production MODE_ENV=staging PORT=4812 npm run start --expose-http2 ",
-    "start:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=4812 npm run start --expose-http2 "
+    "start:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=443 npm run start --expose-http2 "
   },
   "dependencies": {
     "@hapi/iron": "^6.0.0",
@@ -34,6 +34,7 @@
     "cookie": "^0.4.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "flru": "^1.0.2",
     "graphql": "^15.0.0",
     "helmet": "^3.22.0",

@@ -1,15 +1,17 @@
 import * as cookie from 'cookie';
 import jwt from 'jsonwebtoken';
-import serverConfig from '../config/loadConfig';
+import serverConfig from '../config/serverConfig';
+
+const config = serverConfig();
 
 export const authenticate = () => {
   return async (req, res, next) => {
     req.cookies = cookie.parse(req.headers.cookie || '');
-    const sid = serverConfig.TOKEN_HANDLE;
+    const sid = config.TOKEN_HANDLE;
 
     if (req.cookies[sid]) {
       req.sid = req.cookies[sid];
-      const { user } = jwt.decode(req.sid, serverConfig.APP_SECRET);
+      const { user } = jwt.decode(req.sid, config.APP_SECRET);
       req.user = user;
     } else {
       req.sid = null;

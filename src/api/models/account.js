@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import serverConfig from '../../config/loadConfig';
 
+const config = serverConfig;
+
 const getUserDetails = async (knex, id) => {
   const rows = await knex('User').select('*').where('id', id);
 
@@ -9,26 +11,43 @@ const getUserDetails = async (knex, id) => {
 };
 
 const login = async (knex, email, password, url) => {
+  // console.log(knex.client.config.connection);
+  console.log(url);
+  knex.on('query-error', function (err) {
+    console.log('********************************************');
+    console.log(err);
+  });
   try {
+    knex.raw('SELECT * FROM User').then(
+      function (resp) {
+        console.log('+++++++++++++++++++++++++++++++++++++++++++++');
+        console.log(resp);
+      },
+      function (err) {
+        console.log('======================================');
+        console.log(err);
+      }
+    );
+
     const rows = await knex('Tenant as t')
       .innerJoin('TenantAddress as ta', 'ta.tenantId', 't.id')
       .innerJoin('TenantUser as tu', 'tu.tenantId', 't.id')
       .innerJoin('User as u', 'tu.userId', 'u.id')
-      .where('ta.url', url)
+      // .where('ta.url', url)
       .andWhere('u.email', email)
       .select('u.*');
-
+    // console.log(knex);
     const user = rows[0];
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new Error('Invalid email or password');
+      throw new Error('Unvalid email or password');
     }
     return {
-      token: jwt.sign({ user: { userId: user.id } }, serverConfig.APP_SECRET),
+      token: jwt.sign({ user: { userId: user.id } }, config.APP_SECRET),
       userId: user.id,
     };
   } catch (e) {
-    throw new Error('Invalid email or password');
+    throw new Error(`Invalid email or password-${e.message}`);
   }
 };
 
@@ -59,7 +78,7 @@ const signup = async (knex, args, ctx) => {
 
   return {
     userId: user.id,
-    token: jwt.sign({ userId: user.id }, serverConfig.APP_SECRET),
+    token: jwt.sign({ userId: user.id }, config.APP_SECRET),
   };
 };
 
