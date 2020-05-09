@@ -1,8 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import serverConfig from '../../config/loadConfig';
-
-const config = serverConfig;
+import config from '../../config/loadConfig';
 
 const getUserDetails = async (knex, id) => {
   const rows = await knex('User').select('*').where('id', id);
@@ -11,32 +9,15 @@ const getUserDetails = async (knex, id) => {
 };
 
 const login = async (knex, email, password, url) => {
-  // console.log(knex.client.config.connection);
   console.log(url);
-  knex.on('query-error', function (err) {
-    console.log('********************************************');
-    console.log(err);
-  });
   try {
-    knex.raw('SELECT * FROM User').then(
-      function (resp) {
-        console.log('+++++++++++++++++++++++++++++++++++++++++++++');
-        console.log(resp);
-      },
-      function (err) {
-        console.log('======================================');
-        console.log(err);
-      }
-    );
-
     const rows = await knex('Tenant as t')
       .innerJoin('TenantAddress as ta', 'ta.tenantId', 't.id')
       .innerJoin('TenantUser as tu', 'tu.tenantId', 't.id')
       .innerJoin('User as u', 'tu.userId', 'u.id')
       // .where('ta.url', url)
-      .andWhere('u.email', email)
+      .where('u.email', email)
       .select('u.*');
-    // console.log(knex);
     const user = rows[0];
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {

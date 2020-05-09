@@ -1,9 +1,7 @@
 import { PubSub } from 'apollo-server';
 import Knex from 'knex';
 import jwt from 'jsonwebtoken';
-import serverConfig from '../../config/loadConfig';
-
-const config = serverConfig;
+import config from '../../config/loadConfig';
 
 export class AuthError extends Error {
   constructor() {

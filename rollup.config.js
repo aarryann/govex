@@ -9,9 +9,9 @@ import { terser } from 'rollup-plugin-terser';
 import rollupConfig from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
-import serverConfig, { pathName } from './src/config/loadConfig';
+import { getPathName } from './src/config/loadConfig';
 
-config({ path: pathName });
+config({ path: getPathName() });
 const { NODE_ENV, MODE_ENV } = process.env;
 if (!NODE_ENV || !MODE_ENV) {
   throw new Error('Required environment variables are not set');

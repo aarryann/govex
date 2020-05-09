@@ -8,15 +8,13 @@ import fetch from 'node-fetch';
 import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
 import { getMe, getKnex, pubsub } from './api/helpers/utils';
-import { createServer } from 'https';
+import http from 'http';
+import https from 'https';
 import cors from 'cors';
-import serverConfig, { DIR } from '../src/config/loadConfig';
+import serverConfig, { getBaseDir } from '../src/config/loadConfig';
 import fs from 'fs';
 
-const { NODE_ENV, MODE_ENV } = serverConfig;
 const knex = getKnex();
-// console.log(knex.context);
-// console.log(knex.client.config.connection);
 
 // TODO Convert to Express
 // TODO Add Helmet
@@ -35,8 +33,19 @@ const { json } = require('body-parser');
 
 global.fetch = fetch;
 
-// const { PORT } = serverConfig;
-const PORT = 443;
+const {
+  API_URL,
+  APP_URL,
+  GRAPHQL_EXT,
+  HOST,
+  IS_DEV,
+  IS_SECURE,
+  PORT,
+  PROTOCOL,
+  SOCKET_PROTOCOL,
+  SOCKET_URL,
+  TOKEN_HANDLE,
+} = serverConfig;
 
 const app = express({
   onError: (err, req, res) => {
@@ -47,6 +56,7 @@ const app = express({
 });
 
 const whitelist = [
+  'http://localhost:4812',
   'https://localhost',
   'https://yoxye.org',
   'https://myserver.org:443',
@@ -100,15 +110,16 @@ const server = new ApolloServer({
     return ctx;
   },
 });
-server.applyMiddleware({ app, path: `/${serverConfig.GRAPHQL_EXT}` });
-console.log(serverConfig.GRAPHQL_EXT);
+server.applyMiddleware({ app, path: `/${GRAPHQL_EXT}` });
+
 app.use(
   json(),
   authenticate(),
   compression({ threshold: 0 }),
   sirv('static', {
-    dev: serverConfig.IS_DEV,
+    dev: IS_DEV,
     setHeaders(res) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.hasHeader('Cache-Control') ||
         res.setHeader('Cache-Control', 'max-age=600'); // 10min default
     },
@@ -117,27 +128,38 @@ app.use(
     session: (req) => ({
       user: sanitizeUser(req.user),
       token: req.sid,
-      apiUrl: serverConfig.API_URL,
-      wsUrl: serverConfig.SOCKET_URL,
-      tokenHandle: serverConfig.TOKEN_HANDLE,
-      appUrl: serverConfig.APP_URL,
+      apiUrl: API_URL,
+      wsUrl: SOCKET_URL,
+      tokenHandle: TOKEN_HANDLE,
+      appUrl: APP_URL,
     }),
   })
 );
 // set NODE_EXTRA_CA_CERTS=./myserver.org-fullchain.cert.pem
-const httpServer = createServer(
+const DIR = getBaseDir();
+const getCerts = () => ({
+  key: fs.readFileSync(`${DIR}/secrets/myserver.org.nopass.key.pem`, 'utf8'),
+  cert: fs.readFileSync(`${DIR}/secrets/myserver.org.cert.pem`, 'utf8'),
+});
+
+const httpServer = IS_SECURE
+  ? https.createServer(getCerts(), app)
+  : http.createServer(app);
+/*
+const httpServer = httpContainer.createServer(
   {
-    key: fs.readFileSync(`${DIR}/myserver.org.nopass.key.pem`, 'utf8'),
-    cert: fs.readFileSync(`${DIR}/myserver.org.cert.pem`, 'utf8'),
+    key: fs.readFileSync(`${DIR}/secrets/myserver.org.nopass.key.pem`, 'utf8'),
+    cert: fs.readFileSync(`${DIR}/secrets/myserver.org.cert.pem`, 'utf8'),
   },
   app
 );
-// server.installSubscriptionHandlers(httpServer);
+*/
+server.installSubscriptionHandlers(httpServer);
 httpServer.listen({ port: PORT }, () => {
   console.log(
-    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+    `🚀 Server ready at ${PROTOCOL}://${HOST}:${PORT}${server.graphqlPath}`
   );
   console.log(
-    `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
+    `🚀 Subscriptions ready at ${SOCKET_PROTOCOL}://${HOST}:${PORT}${server.subscriptionsPath}`
   );
 });

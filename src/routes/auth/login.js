@@ -19,7 +19,6 @@ const authenticate = (method, req, res) => {
 
 passport.use(localStrategy);
 export const post = async (req, res, next) => {
-  console.log(1);
   passport.initialize();
   try {
     const login = await authenticate('local', req, res);
@@ -52,6 +51,7 @@ export async function post1(req, res, next) {
         maxAge: 31536000,
         path: '/',
         httpOnly: true,
+        sameSite: 'strict',
       }),
       'Content-Type': 'application/json; charset=utf-8',
     });
