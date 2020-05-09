@@ -9,7 +9,6 @@ const getUserDetails = async (knex, id) => {
 };
 
 const login = async (knex, email, password, url) => {
-  console.log(url);
   try {
     const rows = await knex('Tenant as t')
       .innerJoin('TenantAddress as ta', 'ta.tenantId', 't.id')

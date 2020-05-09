@@ -34,7 +34,6 @@ export const post = async (req, res, next) => {
       'Content-Type': 'application/json; charset=utf-8',
     });
   } catch (errors) {
-    console.log(errors);
     const e = { errors, ok: false, status: 500 };
     send(res, 500, JSON.stringify(e), {
       'Content-Type': 'application/json; charset=utf-8',
