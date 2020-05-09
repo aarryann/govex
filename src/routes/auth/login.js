@@ -1,9 +1,9 @@
 import send from '@polka/send';
 import * as cookie from 'cookie';
 import passport from 'passport';
-import { localStrategy } from '@lib/password-local';
-import { encryptSession } from '@lib/iron';
-import { setTokenCookie } from '@lib/auth-cookies';
+import { localStrategy } from '../../lib/password-local';
+import { encryptSession } from '../../lib/iron';
+import { setTokenCookie } from '../../lib/auth-cookies';
 
 const authenticate = (method, req, res) => {
   return new Promise((resolve, reject) => {
@@ -40,27 +40,3 @@ export const post = async (req, res, next) => {
     });
   }
 };
-
-export async function post1(req, res, next) {
-  try {
-    // Call an authenication graphql to handle the authentication.
-    // return UserAuth data type
-    res.writeHead(200, {
-      'Set-Cookie': cookie.serialize('sid', req.body.token, {
-        maxAge: 31536000,
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-      }),
-      'Content-Type': 'application/json; charset=utf-8',
-    });
-
-    res.end(JSON.stringify(req.body.user));
-  } catch (e) {
-    console.error('POST /auth/login', e);
-    send(res, 500, e.data, {
-      'Content-Type': e.headers['content-type'],
-      'Content-Length': e.headers['content-length'],
-    });
-  }
-}

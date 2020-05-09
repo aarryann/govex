@@ -3,7 +3,7 @@ import express from 'express';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
 import { ApolloServer } from 'apollo-server-express';
-import { authenticate, sanitizeUser } from './utils/auth';
+import { authenticate, sanitizeUser } from './lib/auth';
 import fetch from 'node-fetch';
 import resolvers from './api/resolvers';
 import typeDefs from './api/typedefs';
@@ -16,18 +16,19 @@ import fs from 'fs';
 
 const knex = getKnex();
 
-// TODO Convert to Express
 // TODO Add Helmet
-// TODO Add same origin
 // TODO Add Apollo Federation
-// TODO Add https
 // TODO Complete Docker
 // TODO Encrypt user or remove userid from session
 // TODO apiurl in object session
 // TODO Change server file extensions to .server.js
-// TODO Move @lib from node_modules
 // TODO Split databases: Opp info from one database, user info from other
-// TODO Logout remove cokkies// TODO Avoid Refresh log out
+// DONE Convert to Express
+// DONE Add same origin
+// DONE Add https
+// DONE Move @lib from node_modules
+// DONE Logout remove cokkies
+// DONE Avoid Refresh log out
 
 const { json } = require('body-parser');
 
@@ -119,7 +120,7 @@ app.use(
   sirv('static', {
     dev: IS_DEV,
     setHeaders(res) {
-      res.setHeader('Access-Control-Allow-Origin', '*');
+      // res.setHeader('Access-Control-Allow-Origin', '*');
       res.hasHeader('Cache-Control') ||
         res.setHeader('Cache-Control', 'max-age=600'); // 10min default
     },
@@ -145,15 +146,7 @@ const getCerts = () => ({
 const httpServer = IS_SECURE
   ? https.createServer(getCerts(), app)
   : http.createServer(app);
-/*
-const httpServer = httpContainer.createServer(
-  {
-    key: fs.readFileSync(`${DIR}/secrets/myserver.org.nopass.key.pem`, 'utf8'),
-    cert: fs.readFileSync(`${DIR}/secrets/myserver.org.cert.pem`, 'utf8'),
-  },
-  app
-);
-*/
+
 server.installSubscriptionHandlers(httpServer);
 httpServer.listen({ port: PORT }, () => {
   console.log(

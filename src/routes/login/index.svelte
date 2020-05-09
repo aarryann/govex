@@ -1,7 +1,7 @@
 <script>
   import { goto, stores } from "@sapper/app";
   import ListErrors from "../../components/scaffold/ListErrors.svelte";
-  import { post } from "@lib/utils.js";
+  import { post } from "../../lib/utils.js";
 
   const { session } = stores();
 

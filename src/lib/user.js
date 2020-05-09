@@ -1,8 +1,8 @@
 import { mutations } from './queries.session';
-import fetch from 'node-fetch'
-import { createHttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import config from '../../config/loadConfig';
+import fetch from 'node-fetch';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import config from '../config/loadConfig';
 import ApolloClient from 'apollo-client';
 
 const client = new ApolloClient({
@@ -11,7 +11,7 @@ const client = new ApolloClient({
     fetch: fetch,
   }),
   cache: new InMemoryCache(),
-})
+});
 
 /**
  * User methods. The example doesn't contain a DB, but for real applications you must use a

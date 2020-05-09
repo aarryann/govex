@@ -1,16 +1,17 @@
 import { serialize, parse } from 'cookie';
+import serverConfig from '../config/loadConfig';
 
 const MAX_AGE = 60 * 60 * 8; // 8 hours
-const sid = process.env.TOKEN_HANDLE;
+const { TOKEN_HANDLE, IS_SECURE } = serverConfig;
 
 export function setTokenCookie(res, token) {
-  const cookie = serialize(sid, token, {
+  const cookie = serialize(TOKEN_HANDLE, token, {
     maxAge: MAX_AGE,
     expires: new Date(Date.now() + MAX_AGE * 1000),
     httpOnly: true,
     path: '/',
-    sameSite: 'lax',
-    // secure: true,
+    sameSite: 'strict',
+    secure: IS_SECURE,
   });
 
   res.setHeader('Set-Cookie', cookie);

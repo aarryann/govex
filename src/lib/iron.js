@@ -1,5 +1,5 @@
 import Iron from '@hapi/iron';
-import { getTokenCookie } from '@lib/auth-cookies';
+import { getTokenCookie } from './auth-cookies';
 
 // Use an environment variable here instead of a hardcoded value for production
 const TOKEN_SECRET = 'this-is-a-secret-value-with-at-least-32-characters';
