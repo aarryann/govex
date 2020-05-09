@@ -4,7 +4,7 @@
 /cypress/screenshots/
 /secrets/*
 !/secrets
-!/secrets/env.example
+!/secrets/.env.example
 !/src
 /src/node_modules/@sapper/
 !/static
