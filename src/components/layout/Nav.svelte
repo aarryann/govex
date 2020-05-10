@@ -1,17 +1,13 @@
 <script>
-  import { onMount } from "svelte";
-  import { goto, stores } from "@sapper/app";
-  import { post } from "../../lib/utils.js";
-  import { getClient, query, mutate } from "svelte-apollo";
-  import { mutations, queries } from "../../routes/auth/_queries.js";
-  import { SessionCache } from "../../config/config.js";
+  import { onMount } from 'svelte';
+  import { goto, stores } from '@sapper/app';
+  import { post } from '../../lib/utils.js';
 
   const { session } = stores();
 
-  let email = "";
+  let email = '';
   let emailInput;
-  let password = "";
-  const client = getClient();
+  let password = '';
 
   async function submit(event) {
     if (!event.target.checkValidity()) return;
@@ -21,15 +17,12 @@
 
       if (r.status === 200) {
         session.set({ user: r.user, token: r.token });
-        goto("/pipeline");
+        goto('/pipeline');
       } else {
         throw new Error(r.errors);
       }
     } catch (error) {
-      console.error(
-        "You have an error in your code or there are Network issues.",
-        error.message
-      );
+      console.error('You have an error in your code or there are Network issues.', error.message);
     }
   }
 
@@ -55,9 +48,7 @@
 <div class="horizontal-menu">
   <nav class="navbar top-navbar col-lg-12 col-12 p-0">
     <div class="container">
-      <div
-        class="text-center navbar-brand-wrapper d-flex align-items-center
-        justify-content-center">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo" href="/">
           <img src="/img/logo.png" alt="logo" />
         </a>
@@ -65,12 +56,9 @@
           <img src="/img/logo.png" alt="logo" />
         </a>
       </div>
-      <div
-        class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <h2 class="sitename mr-auto">Electronic Data Capture</h2>
-        <form
-          on:submit|preventDefault={submit}
-          class="form-inline mt-2 mt-md-0">
+        <form on:submit|preventDefault={submit} class="form-inline mt-2 mt-md-0">
           <input
             name="username"
             class="form-control mr-sm-2"
@@ -86,12 +74,9 @@
             placeholder="password"
             aria-label="password"
             bind:value={password} />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Sign in
-          </button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign in</button>
           <button
-            class="navbar-toggler navbar-toggler-right d-lg-none
-            align-self-center"
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
             type="submit"
             data-toggle="horizontal-menu-toggle">
             <span class="mdi mdi-menu" />
@@ -101,9 +86,7 @@
     </div>
   </nav>
   <nav class="bottom-navbar">
-    <div
-      class="container d-flex flex-column flex-md-row align-items-center pt-2
-      pb-2">
+    <div class="container d-flex flex-column flex-md-row align-items-center pt-2 pb-2">
       <nav class="my-2 my-md-0 mr-md-3 ml-auto">
         <a href="#features" class="p-2 text-dark">Features</a>
         <a href="#enterprise" class="p-2 text-dark">Enterprise</a>

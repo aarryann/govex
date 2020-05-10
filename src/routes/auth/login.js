@@ -1,9 +1,9 @@
 import send from '@polka/send';
 import * as cookie from 'cookie';
 import passport from 'passport';
-import { localStrategy } from '../../lib/password-local';
-import { encryptSession } from '../../lib/iron';
-import { setTokenCookie } from '../../lib/auth-cookies';
+import { localStrategy } from '../../server/lib/password-local';
+import { encryptSession } from '../../server/lib/iron';
+import { setTokenCookie } from '../../server/lib/auth-cookies';
 
 const authenticate = (method, req, res) => {
   return new Promise((resolve, reject) => {

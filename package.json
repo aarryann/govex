@@ -34,7 +34,6 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "flru": "^1.0.2",
     "graphql": "^15.0.0",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
@@ -59,6 +58,7 @@
     "cypress": "^4.5.0",
     "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.5",
     "rollup": "^2.8.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -71,5 +71,13 @@
     "svelte": "^3.22.2",
     "svelte-apollo": "^0.3.0",
     "svelte-preprocess": "^3.7.4"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 120,
+    "semi": true,
+    "tabWidth": 2,
+    "endOfLine": "auto"
   }
 }

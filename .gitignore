@@ -9,10 +9,8 @@
 /src/node_modules/@sapper/
 !/static
 !.dockerignore
-!.editorconfig
 !.gitignore
 !.meta
-!.prettierc
 !cypress.json
 !docker-compose.yml
 !Dockerfile

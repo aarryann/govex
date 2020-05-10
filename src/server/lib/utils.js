@@ -1,7 +1,7 @@
 import { PubSub } from 'apollo-server';
 import Knex from 'knex';
 import jwt from 'jsonwebtoken';
-import config from '../../config/loadConfig';
+import serverConfig from '../config/loadConfig';
 
 export class AuthError extends Error {
   constructor() {
@@ -15,7 +15,7 @@ export const getMe = async (req) => {
     const token = Authorization.replace('Bearer ', '');
     const {
       user: { userId },
-    } = jwt.verify(token, config.APP_SECRET);
+    } = jwt.verify(token, serverConfig.APP_SECRET);
     return { userId, token };
   } catch (e) {
     throw new AuthError();
@@ -27,7 +27,7 @@ export const pubsub = new PubSub();
 export const getKnex = () =>
   Knex({
     client: 'pg',
-    connection: config.DB_URL,
+    connection: serverConfig.DB_URL,
     searchPath: ['knex', 'public'],
   });
 

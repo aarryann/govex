@@ -15,17 +15,9 @@ export const getPathName = () => {
   return `${DIR}/secrets/.env.${NODE_ENV}.${MODE_ENV}`;
 };
 if (!process.env.HOST) {
-  config({ path: getPathName(getBaseDir()) });
+  config({ path: getPathName() });
 }
-const {
-  APP_SECRET,
-  DB_URL,
-  GRAPHQL_EXT,
-  HOST,
-  PROTOCOL,
-  TOKEN_HANDLE,
-  ANALYZE,
-} = process.env;
+const { APP_SECRET, DB_URL, GRAPHQL_EXT, HOST, PROTOCOL, TOKEN_HANDLE, ANALYZE } = process.env;
 const SOCKET_PROTOCOL = PROTOCOL === 'https' ? 'wss' : 'ws';
 export default {
   NODE_ENV,

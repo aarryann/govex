@@ -9,7 +9,7 @@ import { terser } from 'rollup-plugin-terser';
 import rollupConfig from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
-import { getPathName } from './src/config/loadConfig';
+import { getPathName } from './src/server/config/loadConfig';
 
 config({ path: getPathName() });
 const { NODE_ENV, MODE_ENV } = process.env;
@@ -21,12 +21,10 @@ const dev = NODE_ENV === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 const onwarn = (warning, onwarn) =>
-  (warning.code === 'CIRCULAR_DEPENDENCY' &&
-    /[/\\]@sapper[/\\]/.test(warning.message)) ||
+  (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
   warning.message === 'Unused CSS selector' ||
   onwarn(warning);
-const dedupe = (importee) =>
-  importee === 'svelte' || importee.startsWith('svelte/');
+const dedupe = (importee) => importee === 'svelte' || importee.startsWith('svelte/');
 
 const preprocess = sveltePreprocess({
   scss: {
@@ -113,8 +111,7 @@ export default {
       }),
     ],
     external: Object.keys(pkg.dependencies).concat(
-      require('module').builtinModules ||
-        Object.keys(process.binding('natives'))
+      require('module').builtinModules || Object.keys(process.binding('natives'))
     ),
 
     onwarn,

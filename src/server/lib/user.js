@@ -1,4 +1,4 @@
-import { mutations } from './queries.session';
+import { mutations } from '../lib/queries.session';
 import fetch from 'node-fetch';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
