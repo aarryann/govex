@@ -45,10 +45,12 @@ export default () => {
   const {
     API_URL,
     APP_URL,
+    CERT,
     GRAPHQL_EXT,
     HOST,
     IS_DEV,
     IS_SECURE,
+    KEY,
     MODE_ENV,
     PORT,
     PROTOCOL,
@@ -140,11 +142,11 @@ export default () => {
       }),
     })
   );
-  // set NODE_EXTRA_CA_CERTS=./myserver.org-fullchain.cert.pem
+  // set NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem
   const DIR = getBaseDir();
   const getCerts = () => ({
-    key: fs.readFileSync(`${DIR}/secrets/myserver.org.nopass.key.pem`, 'utf8'),
-    cert: fs.readFileSync(`${DIR}/secrets/myserver.org.cert.pem`, 'utf8'),
+    key: fs.readFileSync(`${DIR}/secrets/${KEY}`, 'utf8'),
+    cert: fs.readFileSync(`${DIR}/secrets/${CERT}`, 'utf8'),
   });
 
   const httpServer = IS_SECURE ? https.createServer(getCerts(), app) : http.createServer(app);
