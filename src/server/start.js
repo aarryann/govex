@@ -4,24 +4,29 @@ import sirv from 'sirv';
 import express from 'express';
 import compression from 'compression';
 import { ApolloServer } from 'apollo-server-express';
-import { authenticate, sanitizeUser } from './lib/auth';
+import { authenticateUser, sanitizeUser, loginHandler, logoutHandler } from './lib/auth';
 import fetch from 'node-fetch';
 import helmet from 'helmet';
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
 import cors from 'cors';
+import passport from 'passport';
 
+import { localStrategy } from './lib/password-local';
 import resolvers from './resolvers';
 import typeDefs from './typedefs';
 import { getMe, getKnex, pubsub } from './lib/utils';
 import serverConfig, { getBaseDir } from './config/loadConfig';
 
+passport.use(localStrategy);
+
 export default () => {
   const knex = getKnex();
 
   // TODO Match Next - httpsredirect
-  // TODO Roadmap
+  // TODO login and logout in express
+  // TODO Roadmap in docs
   // TODO Complete Docker
   // TODO NGINX Reverse proxy production
   // TODO Add Apollo Federation
@@ -59,6 +64,7 @@ export default () => {
     TOKEN_HANDLE,
   } = serverConfig;
 
+  // FIXME Send is from POLKA change it to res.send
   const app = express({
     onError: (err, req, res) => {
       const error = err.message || err;
@@ -82,6 +88,7 @@ export default () => {
   app.use('*', cors(corsOptions));
   app.enable('trust proxy');
   app.use(helmet());
+  app.use(json());
   // compression should be setup in reverse proxy on the server,
   // it is enabled on local for testing performance
   if (MODE_ENV === 'local') {
@@ -120,9 +127,13 @@ export default () => {
   });
   server.applyMiddleware({ app, path: `/${GRAPHQL_EXT}` });
 
+  app.post('/auth/login', async (req, res, next) => loginHandler(req, res, next));
+
+  app.get('/auth/logout', async (req, res, next) => logoutHandler(req, res, next));
+
   app.use(
-    json(),
-    authenticate(),
+    // json(),
+    authenticateUser(),
     compression({ threshold: 0 }),
     sirv('static', {
       dev: IS_DEV,
@@ -142,6 +153,7 @@ export default () => {
       }),
     })
   );
+
   // set NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem
   const DIR = getBaseDir();
   const getCerts = () => ({

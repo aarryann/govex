@@ -1,9 +1,9 @@
-import { mutations } from '../lib/queries.session';
-import fetch from 'node-fetch';
+import ApolloClient from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import fetch from 'node-fetch';
 import config from '../config/loadConfig';
-import ApolloClient from 'apollo-client';
+import { mutations } from '../lib/queries.session';
 
 const client = new ApolloClient({
   link: createHttpLink({

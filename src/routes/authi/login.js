@@ -1,5 +1,3 @@
-import send from '@polka/send';
-import * as cookie from 'cookie';
 import passport from 'passport';
 import { localStrategy } from '../../server/lib/password-local';
 import { encryptSession } from '../../server/lib/iron';
@@ -20,6 +18,7 @@ const authenticate = (method, req, res) => {
 passport.use(localStrategy);
 export const post = async (req, res, next) => {
   passport.initialize();
+  console.log(req.body);
   try {
     const login = await authenticate('local', req, res);
     // session is the payload to save in the token, it may contain basic info about the user
@@ -30,13 +29,11 @@ export const post = async (req, res, next) => {
     setTokenCookie(res, token);
     const { id, email } = user;
     const data = { user: { id, email }, token, ok: true, status: 200 };
-    send(res, 200, JSON.stringify(data), {
-      'Content-Type': 'application/json; charset=utf-8',
-    });
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.status(200).send(JSON.stringify(data));
   } catch (errors) {
     const e = { errors, ok: false, status: 500 };
-    send(res, 500, JSON.stringify(e), {
-      'Content-Type': 'application/json; charset=utf-8',
-    });
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.status(500).send(JSON.stringify(e));
   }
 };

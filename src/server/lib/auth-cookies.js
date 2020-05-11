@@ -8,8 +8,8 @@ export function setTokenCookie(res, token) {
   const cookie = serialize(TOKEN_HANDLE, token, {
     maxAge: MAX_AGE,
     expires: new Date(Date.now() + MAX_AGE * 1000),
-    httpOnly: true,
     path: '/',
+    httpOnly: true,
     sameSite: 'strict',
     secure: IS_SECURE,
   });
@@ -18,9 +18,12 @@ export function setTokenCookie(res, token) {
 }
 
 export function removeTokenCookie(res) {
-  const cookie = serialize(sid, '', {
+  const cookie = serialize(TOKEN_HANDLE, '', {
     maxAge: -1,
     path: '/',
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: IS_SECURE,
   });
 
   res.setHeader('Set-Cookie', cookie);
@@ -37,5 +40,5 @@ export function parseCookies(req) {
 
 export function getTokenCookie(req) {
   const cookies = parseCookies(req);
-  return cookies[sid];
+  return cookies[TOKEN_HANDLE];
 }
