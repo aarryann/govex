@@ -1,9 +1,6 @@
 {
   "projects": {
     ".docs": "https://github.com/aarryann/docex.git",
-    "data": "https://github.com/aarryann/sample-data.git",
-    "src/components": "https://github.com/aarryann/codex.git",
-    "src/plugins": "https://github.com/aarryann/pugex.git",
-    "src/utils": "https://github.com/aarryann/utex.git"
+    "data": "https://github.com/aarryann/sample-data.git"
   }
 }
