@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import replace from '@rollup/plugin-replace';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import json from '@rollup/plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import resolve from 'rollup-plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
@@ -42,6 +43,7 @@ export default {
     plugins: [
       builtins(),
       commonjs(),
+      json(),
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -97,6 +99,7 @@ export default {
     plugins: [
       builtins(),
       commonjs(),
+      json(),
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -123,6 +126,7 @@ export default {
     plugins: [
       builtins(),
       commonjs(),
+      json(),
       resolve(),
       replace({
         'process.browser': true,
