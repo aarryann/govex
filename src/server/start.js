@@ -12,8 +12,9 @@ import http from 'http';
 import https from 'https';
 import cors from 'cors';
 import passport from 'passport';
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format, transports, loggers } from 'winston';
 import morgan from 'morgan';
+import winstonDailyRotateFile from 'winston-daily-rotate-file';
 
 import resolvers from './resolvers';
 import typeDefs from './typedefs';
@@ -22,6 +23,7 @@ import * as serverHandlers from './lib/handlers';
 import serverConfig, { getBaseDir } from './config/loadConfig';
 
 passport.use(localStrategy);
+const logger = loggers.get('customLogger');
 
 export default () => {
   const { json } = require('body-parser');
@@ -48,31 +50,43 @@ export default () => {
   const app = express({ onError: (err, req, res) => serverHandlers.serverErrorHandler(err, req, res) });
   const logger = createLogger({
     level: 'info',
+    timestamp: true,
     format: format.combine(
       format.timestamp({
         format: 'YYYY-MM-DD HH:mm:ss',
       }),
-      format.errors({ stack: true }),
-      format.splat(),
-      format.json()
+      format.align(),
+      format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
+      // format.errors({ stack: true }),
+      // format.splat(),
+      // format.json()
     ),
     transports: [
       new transports.File({
-        level: 'info',
-        filename: './logs/error-logs.log',
+        level: 'error',
+        filename: './logs/all-errors.log',
         handleExceptions: true,
         maxsize: 5242880, //5MB
         maxFiles: 5,
-        colorize: false,
       }),
-      new transports.File({ filename: './logs/all-logs.log' }),
+      new transports.File({
+        filename: './logs/all-logs.log',
+        maxsize: 5242880, //5MB
+        maxFiles: 5,
+      }),
+    ],
+    exceptionHandlers: [
+      new transports.File({
+        filename: 'logs/all-exceptions.log',
+        maxsize: 5242880, //5MB
+        maxFiles: 5,
+      }),
     ],
     exitOnError: false,
   });
 
   //
-  // If we're not in production then **ALSO** log to the `console`
-  // with the colorized simple format.
+  // If we're not in production then **ALSO** log to the `console` with the colorized simple format.
   //
   if (process.env.NODE_ENV !== 'production') {
     logger.add(
@@ -81,28 +95,6 @@ export default () => {
       })
     );
   }
-  /*
-  const logger = createLogger({
-    level: 'info',
-    format: format.combine(
-      format.timestamp({
-        format: 'YYYY-MM-DD HH:mm:ss',
-      }),
-      format.errors({ stack: true }),
-      format.splat(),
-      format.json()
-    ),
-    defaultMeta: { service: 'Govex' },
-    transports: [
-      //
-      // - Write to all logs with level `info` and below to `quick-start-combined.log`.
-      // - Write all logs error (and below) to `quick-start-error.log`.
-      //
-      new transports.File({ filename: './logs/quick-start-error.log', level: 'error' }),
-      new transports.File({ filename: './logs/quick-start-combined.log' }),
-    ],
-  });
-*/
   logger.stream = {
     write: function (message, encoding) {
       logger.info(message);
@@ -134,6 +126,7 @@ export default () => {
   });
   server.applyMiddleware({ app, path: `/${GRAPHQL_EXT}` });
 
+  app.use(express.static('logs'));
   app.post('/auth/login', async (req, res, next) => loginHandler(req, res, next));
   app.get('/auth/logout', async (req, res, next) => logoutHandler(req, res, next));
 
@@ -168,7 +161,7 @@ export default () => {
 
   server.installSubscriptionHandlers(httpServer);
   httpServer.listen({ port: PORT }, () => {
-    console.log(`🚀 Server ready at ${PROTOCOL}://${HOST}:${PORT}${server.graphqlPath}`);
-    console.log(`🚀 Subscriptions ready at ${SOCKET_PROTOCOL}://${HOST}:${PORT}${server.subscriptionsPath}`);
+    logger.info(`🚀 Server ready at ${PROTOCOL}://${HOST}:${PORT}${server.graphqlPath}`);
+    logger.info(`🚀 Subscriptions ready at ${SOCKET_PROTOCOL}://${HOST}:${PORT}${server.subscriptionsPath}`);
   });
 };
