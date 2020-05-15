@@ -7,6 +7,7 @@ services:
     environment:
       - NODE_ENV=development
       - MODE_ENV=local
+      - PORT=4813
     expose: [4813]
     extra_hosts:
       - 'database:192.168.1.202'

@@ -3,7 +3,7 @@ import path from 'path';
 
 const { NODE_ENV, MODE_ENV, PORT } = process.env;
 if (!NODE_ENV || !MODE_ENV || !PORT) {
-  throw new Error('Required environment variables are not set');
+  throw new Error('Required environment variables are not set in load config');
 }
 export const getBaseDir = () => {
   const DIR = __dirname.split('__sapper__')[0];

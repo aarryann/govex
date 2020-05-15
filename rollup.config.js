@@ -15,7 +15,7 @@ import { getPathName } from './src/server/config/loadConfig';
 config({ path: getPathName() });
 const { NODE_ENV, MODE_ENV } = process.env;
 if (!NODE_ENV || !MODE_ENV) {
-  throw new Error('Required environment variables are not set');
+  throw new Error('Required environment variables are not set in build');
 }
 
 const dev = NODE_ENV === 'development';
