@@ -1,4 +1,3 @@
-import { config } from 'dotenv';
 import replace from '@rollup/plugin-replace';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
@@ -10,15 +9,13 @@ import { terser } from 'rollup-plugin-terser';
 import rollupConfig from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
-import { getPathName } from './src/server/config/loadConfig';
 
-config({ path: getPathName() });
-const { NODE_ENV, MODE_ENV } = process.env;
-if (!NODE_ENV || !MODE_ENV) {
+const { NODE_ENV } = process.env;
+if (!NODE_ENV) {
   throw new Error('Required environment variables are not set in build');
 }
-
-const dev = NODE_ENV === 'development';
+// const dev = NODE_ENV === 'development';
+const dev = false;
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 const onwarn = (warning, onwarn) =>

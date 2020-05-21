@@ -2,34 +2,22 @@
 # Without an appropriate .dockerignore, this Dockerfile will copy a large number of unneeded files into your image.
 
 FROM mhart/alpine-node:12 AS builder
-ENV NODE_ENV=development
-ENV MODE_ENV=local
-
-# install dependencies
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci 
+# Needs to be in development mode to install sapper from devDependencies
+RUN npm ci --unsafe-perm
+# Define NODE_ENV after installing npm modules
+ARG NODE_ENV
 COPY . .
-
 RUN npm run build
 
-RUN npm ci --production
+RUN npm ci --production --unsafe-perm
+RUN ls /app
 
-###
-# Only copy over the Node pieces we need
-# ~> Saves 35MB
-###
+# Only copy over the Node pieces we need saves 35MB
 FROM mhart/alpine-node:slim-12
-ENV NODE_ENV=development
-ENV MODE_ENV=local
 
 WORKDIR /app
 COPY --from=builder /app .
-COPY . .
-
-EXPOSE 4813
 
 CMD ["node", "__sapper__/build"]
-
-#docker build -t aarryann/govex .
-#docker run -d --expose 4812 --env PORT=4812 -p 4812:4812 --name govex_app aarryann/govex

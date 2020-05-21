@@ -17,7 +17,11 @@
     "build:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=443 npm run build",
     "start:local": "cross-env NODE_ENV=production MODE_ENV=local PORT=443 NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem npm run start --expose-http2 ",
     "start:staging": "cross-env NODE_ENV=production MODE_ENV=staging PORT=443 NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem npm run start --expose-http2 ",
-    "start:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=443 NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem npm run start --expose-http2 "
+    "start:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=443 NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem npm run start --expose-http2 ",
+    "dev:docker": "docker-compose build --build-arg NODE_ENV=development --no-cache && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "test:docker": "docker-compose build --build-arg NODE_ENV=production --no-cache && docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d",
+    "stage:docker": "docker-compose build --build-arg NODE_ENV=production --no-cache && docker-compose -f docker-compose.yml -f docker-compose.stage.yml up -d",
+    "prod:docker": "docker-compose build --build-arg NODE_ENV=production --no-cache && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
   },
   "dependencies": {
     "@hapi/iron": "^6.0.0",
@@ -42,6 +46,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.1.0",
+    "serve": "^11.3.0",
     "sirv": "^0.4.2",
     "subscriptions-transport-ws": "^0.9.16",
     "winston": "^3.2.1",
@@ -57,7 +62,6 @@
     "@rollup/plugin-json": "^4.0.3",
     "@rollup/plugin-replace": "^2.3.2",
     "autoprefixer": "^9.7.6",
-    "cypress": "^4.5.0",
     "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",

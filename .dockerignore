@@ -1,9 +1,8 @@
 /*
+!/secrets/*
 !/src
 !/static
 !/data
-!/.env
-!/Dockerfile
 !/package.json
 !/package-lock.json
 !/rollup.config.js

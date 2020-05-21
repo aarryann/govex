@@ -6,6 +6,7 @@ import compression from 'compression';
 import { ApolloServer } from 'apollo-server-express';
 import { authenticateUser, sanitizeUser, loginHandler, logoutHandler } from './lib/auth';
 import fetch from 'node-fetch';
+import uuidv4 from 'uuid/v4';
 import helmet from 'helmet';
 import fs from 'fs';
 import http from 'http';
@@ -14,7 +15,6 @@ import cors from 'cors';
 import passport from 'passport';
 import { createLogger, format, transports, loggers } from 'winston';
 import morgan from 'morgan';
-import winstonDailyRotateFile from 'winston-daily-rotate-file';
 
 import resolvers from './resolvers';
 import typeDefs from './typedefs';
@@ -112,6 +112,22 @@ export default () => {
   app.use('*', cors(corsOptions));
   app.enable('trust proxy');
   app.use(helmet());
+  /*
+  app.use((req, res, next) => {
+    res.locals.nonce = uuidv4();
+    next();
+  });
+  app.use(helmet({
+  	contentSecurityPolicy: {
+  		directives: {
+    			scriptSrc: [
+				"'self'",
+  				(req, res) => `'nonce-${res.locals.nonce}'`
+  			]
+  		}
+  	}
+  }));
+  */
   app.use(json());
   // compression should be setup in reverse proxy on the server, it is enabled on local for testing performance
   if (MODE_ENV === 'local') {
@@ -161,7 +177,7 @@ export default () => {
 
   server.installSubscriptionHandlers(httpServer);
   httpServer.listen({ port: PORT }, () => {
-    logger.info(`🚀 Server ready at ${PROTOCOL}://${HOST}:${PORT}${server.graphqlPath}`);
-    logger.info(`🚀 Subscriptions ready at ${SOCKET_PROTOCOL}://${HOST}:${PORT}${server.subscriptionsPath}`);
+    console.info(`🚀 Server ready at ${PROTOCOL}://${HOST}:${PORT}${server.graphqlPath}`);
+    console.info(`🚀 Subscriptions ready at ${SOCKET_PROTOCOL}://${HOST}:${PORT}${server.subscriptionsPath}`);
   });
 };

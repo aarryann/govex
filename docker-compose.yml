@@ -2,15 +2,7 @@ version: '3.7'
 
 services:
   apper:
-    build: ./
+    build:
+      context: ./
     container_name: apper
-    environment:
-      - NODE_ENV=development
-      - MODE_ENV=local
-      - PORT=4813
-    expose: [4813]
-    extra_hosts:
-      - 'database:192.168.1.202'
     init: true
-    ports:
-      - '4813:4813'

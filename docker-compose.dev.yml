@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  apper:
+    build:
+      args:
+        NODE_ENV: development
+    environment:
+      NODE_ENV: development
+      MODE_ENV: local
+      PORT: 4813
+    expose: [4813]
+    extra_hosts:
+      - 'database:192.168.1.202'
+    ports:
+      - '4813:4813'

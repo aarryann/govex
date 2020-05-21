@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  apper:
+    build:
+      args:
+        NODE_ENV: production
+    environment:
+      NODE_ENV: production
+      MODE_ENV: staging
+      PORT: 443
+    expose: [443]
+    extra_hosts:
+      - 'database:192.168.1.202'
+    ports:
+      - '443:443'

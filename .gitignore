@@ -13,10 +13,15 @@
 !.meta
 !cypress.json
 !docker-compose.yml
+!docker-compose.dev.yml
+!docker-compose.test.yml
+!docker-compose.stage.yml
+!docker-compose.prod.yml
 !Dockerfile
 !dockerstartapp.bat
 !package-lock.json
 !package.json
 !README.md
 !rollup.config.js
+!startdocker.bat
 !svelte.config.js

@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  apper:
+    build:
+      args:
+        NODE_ENV: production
+    environment:
+      NODE_ENV: production
+      MODE_ENV: production
+      PORT: 443
+      NODE_EXTRA_CA_CERTS: ./secrets/fullchain.cert.pem
+    expose: [443]
+    extra_hosts:
+      - 'database:192.168.1.202'
+    ports:
+      - '443:443'

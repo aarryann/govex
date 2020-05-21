@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  apper:
+    build:
+      args:
+        NODE_ENV: test
+    environment:
+      NODE_ENV: test
+      MODE_ENV: local
+      PORT: 443
+    expose: [443]
+    extra_hosts:
+      - 'database:192.168.1.202'
+    ports:
+      - '443:443'
