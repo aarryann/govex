@@ -85,9 +85,7 @@ export default () => {
     exitOnError: false,
   });
 
-  //
   // If we're not in production then **ALSO** log to the `console` with the colorized simple format.
-  //
   if (process.env.NODE_ENV !== 'production') {
     logger.add(
       new transports.Console({
@@ -111,7 +109,6 @@ export default () => {
   app.options('*', cors());
   app.use('*', cors(corsOptions));
   app.enable('trust proxy');
-  // app.use(helmet());
   app.use((req, res, next) => {
     res.locals.nonce = uuidv4();
     next();
