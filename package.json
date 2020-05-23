@@ -49,6 +49,7 @@
     "serve": "^11.3.0",
     "sirv": "^0.4.2",
     "subscriptions-transport-ws": "^0.9.16",
+    "uuid": "^8.1.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2",
     "ws": "^7.3.0"

@@ -12,7 +12,6 @@ COPY . .
 RUN npm run build
 
 RUN npm ci --production --unsafe-perm
-RUN ls /app
 
 # Only copy over the Node pieces we need saves 35MB
 FROM mhart/alpine-node:slim-12

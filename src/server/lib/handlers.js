@@ -51,7 +51,6 @@ export const serverErrorHandler = (err, req, res) => {
 };
 
 export const originHandler = (origin, callback, whitelist) => {
-  // console.log(whitelist);
   if (whitelist.indexOf(origin) !== -1 || !origin) {
     callback(null, true);
   } else {

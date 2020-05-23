@@ -7,20 +7,16 @@ if (!NODE_ENV || !MODE_ENV || !PORT) {
 }
 export const getBaseDir = () => {
   const DIR = __dirname.split('__sapper__')[0];
-  console.log(__dirname);
   // path.resolve(__dirname, NODE_ENV === 'production' ? '../../..' : '../../..');
   return path.resolve(DIR, './');
 };
 export const getPathName = () => {
   const DIR = getBaseDir();
-  console.log(DIR);
   return `${DIR}/secrets/env.${NODE_ENV}.${MODE_ENV}`;
 };
 if (!process.env.HOST) {
   config({ path: getPathName() });
 }
-console.log('============================');
-console.log(process.env);
 const { APP_SECRET, CERT, DB_URL, GRAPHQL_EXT, HOST, KEY, PROTOCOL, TOKEN_HANDLE, ANALYZE } = process.env;
 const SOCKET_PROTOCOL = PROTOCOL === 'https' ? 'wss' : 'ws';
 export default {

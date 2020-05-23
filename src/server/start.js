@@ -6,7 +6,7 @@ import compression from 'compression';
 import { ApolloServer } from 'apollo-server-express';
 import { authenticateUser, sanitizeUser, loginHandler, logoutHandler } from './lib/auth';
 import fetch from 'node-fetch';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import helmet from 'helmet';
 import fs from 'fs';
 import http from 'http';
@@ -111,23 +111,20 @@ export default () => {
   app.options('*', cors());
   app.use('*', cors(corsOptions));
   app.enable('trust proxy');
-  app.use(helmet());
-  /*
+  // app.use(helmet());
   app.use((req, res, next) => {
     res.locals.nonce = uuidv4();
     next();
   });
-  app.use(helmet({
-  	contentSecurityPolicy: {
-  		directives: {
-    			scriptSrc: [
-				"'self'",
-  				(req, res) => `'nonce-${res.locals.nonce}'`
-  			]
-  		}
-  	}
-  }));
-  */
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          scriptSrc: ["'self' 'unsafe-eval'", (req, res) => `'nonce-${res.locals.nonce}'`],
+        },
+      },
+    })
+  );
   app.use(json());
   // compression should be setup in reverse proxy on the server, it is enabled on local for testing performance
   if (MODE_ENV === 'local') {
