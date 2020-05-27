@@ -2,6 +2,7 @@
 !.vscode
 !/cypress
 /cypress/screenshots/
+!/nginx
 /secrets/*
 !/secrets
 !/secrets/.env.example

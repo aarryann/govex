@@ -6,3 +6,13 @@ services:
       context: ./
     container_name: apper
     init: true
+  reverse:
+    container_name: reverse
+    hostname: reverse
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx
+      - ./nginx/certs:/etc/ssl/private
