@@ -19,7 +19,7 @@
     "start:staging": "cross-env NODE_ENV=production MODE_ENV=staging PORT=443 NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem npm run start --expose-http2 ",
     "start:production": "cross-env NODE_ENV=production MODE_ENV=production PORT=443 NODE_EXTRA_CA_CERTS=./secrets/fullchain.cert.pem npm run start --expose-http2 ",
     "docker": "docker-compose build --build-arg NODE_ENV=development && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
-    "dev:docker": "docker-compose build --build-arg NODE_ENV=development --no-cache && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "dev:docker": "docker-compose build --build-arg NODE_ENV=development && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
     "test:docker": "docker-compose build --build-arg NODE_ENV=production --no-cache && docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d",
     "stage:docker": "docker-compose build --build-arg NODE_ENV=production --no-cache && docker-compose -f docker-compose.yml -f docker-compose.stage.yml up -d",
     "prod:docker": "docker-compose build --build-arg NODE_ENV=production --no-cache && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
