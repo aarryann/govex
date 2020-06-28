@@ -11,6 +11,6 @@ services:
       PORT: 4813
     expose: [4813]
     extra_hosts:
-      - 'database:192.168.1.202'
+      - 'databasehost:192.168.1.214'
     ports:
       - '4813:4813'

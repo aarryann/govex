@@ -101,7 +101,7 @@ export default () => {
 
   app.use(morgan('combined', { stream: logger.stream }));
 
-  const whitelist = ['http://localhost:4812', 'https://yoxye.org', 'https://yoxye.org:443', 'https://myserver.org', 'http://localhost', 'http://myserver.org'];
+  const whitelist = ['http://localhost:4813', 'https://yoxye.org', 'https://yoxye.org:443', 'https://myserver.org', 'http://localhost', 'http://myserver.org'];
   const corsOptions = {
     origin: (origin, callback) => serverHandlers.originHandler(origin, callback, whitelist),
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
