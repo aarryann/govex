@@ -16,7 +16,8 @@
 !docker-compose.stage.yml
 !docker-compose.prod.yml
 !Dockerfile
-!k8.yaml
+!k8.yml
+!k8-service.yml
 !package-lock.json
 !package.json
 !README.md
