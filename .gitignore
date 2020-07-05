@@ -15,7 +15,6 @@
 !docker-compose.test.yml
 !docker-compose.stage.yml
 !docker-compose.prod.yml
-!dockerbuild.bat
 !Dockerfile
 !k8.yaml
 !package-lock.json

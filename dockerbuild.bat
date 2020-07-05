@@ -1,1 +1,0 @@
-docker build -t aarryann/govex --build-arg NODE_ENV=development .
