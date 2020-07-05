@@ -3,9 +3,6 @@
 !/cypress
 /cypress/screenshots/
 !/nginx
-/secrets/*
-!/secrets
-!/secrets/.env.example
 !/src
 /src/node_modules/@sapper/
 !/static
@@ -19,6 +16,7 @@
 !docker-compose.stage.yml
 !docker-compose.prod.yml
 !Dockerfile
+!k8.yaml
 !package-lock.json
 !package.json
 !README.md
