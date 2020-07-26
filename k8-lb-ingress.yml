@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ct-govex-app
+  namespace: default
+spec:
+  rules:
+  - host: edac.yoxye.me 
+    http:
+      paths:
+      - path: 
+        backend:
+          serviceName: ct-govex-app
+          servicePort: 80

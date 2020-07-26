@@ -18,6 +18,7 @@
 !Dockerfile
 !k8.yml
 !k8-service.yml
+!k8-lb-ingress.yml
 !package-lock.json
 !package.json
 !README.md
